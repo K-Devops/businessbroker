@@ -1,0 +1,36 @@
+
+
+.watchlist{
+    height: 40em;
+    margin-bottom: 10%;
+    border:solid;
+    border-color: darkgrey;
+    border-width: thin;
+    border-radius: 5em;
+    background-color: lightgrey;
+}
+
+.col-4 {
+    text-align: center;
+}
+
+.container{
+    margin-top: 10%;
+}
+.depot{
+    height: 40em;
+    margin-bottom: 10%;
+    border:solid;
+    border-color: darkgrey;
+    border-width: thin;
+    border-radius: 5em;
+    background-color: lightgrey;
+
+}
+.depot:hover{
+
+}
+
+
+
+
