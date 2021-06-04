@@ -29,5 +29,5 @@ export const Button = ({
 Button.defaultProps = {
    buttonStyle : 'btn btn-outline-secondary',
     buttonSize : 'btn-lg',
-    link : "/#"
+    link : "/"
 }

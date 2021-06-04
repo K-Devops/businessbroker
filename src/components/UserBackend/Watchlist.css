@@ -8,6 +8,7 @@
     border-width: thin;
     border-radius: 5em;
     background-color: lightgrey;
+    overflow-y: scroll;
 }
 
 .col-4 {
@@ -31,6 +32,18 @@
 
 }
 
+.box{
+    border: black;
+    border: solid;
+    display: block;
+    width: 100%;
+    border-radius: 20%;
+
+}
+
+a button{
+    float: right;
+}
 
 
 

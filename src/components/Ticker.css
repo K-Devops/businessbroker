@@ -1,0 +1,12 @@
+.Ticker{
+    background-color: grey;
+    width: 100%;
+    position: relative;
+}
+.Tick{
+
+    border-width: 0.5px;
+    width: 20%;
+    display: inline;
+    margin: 1%;
+}
