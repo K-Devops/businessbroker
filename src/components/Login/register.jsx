@@ -1,7 +1,8 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {Modal} from "react-bootstrap";
 import {Button} from "../Button";
 import {FaTimes} from "react-icons/fa";
+import {UserCloud} from "../UserCloud";
 
 
 export const Register = (props) => {
@@ -11,15 +12,7 @@ export const Register = (props) => {
     const [password, setpassword] = useState('')
     const [passwordtwo, setpasswordtwo] = useState('')
     const [checkbox, setcheckbox] = useState(false)
-
-    /*Hier aus der Datenbank herauslesen */
-    const [users, setUsers] = useState(  [{
-            id: 1,
-            name: 'Tim',
-            email: 'email@hfu.de',
-            password:'hallo',
-        }]
-    )
+    const {users, setUsers} = useContext(UserCloud);
 
     const handleChange = (e) => {
         setcheckbox(!checkbox)
@@ -41,14 +34,10 @@ export const Register = (props) => {
         alert("Die Passwörter stimmen nicht überein. Versuchen Sie es erneut.")
         return
     }
+
         const id = Math.floor(Math.random()*10000) +1
-
         const newUser = {id,name,email,password }
-        setUsers([...users, newUser])
-        //{console.log(name,email,password)}
-
-
-
+        //Schicke neuen User zu Luisa
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -58,9 +47,14 @@ export const Register = (props) => {
             },
             body: JSON.stringify({ newUser })
         };
+
+        //erhalte UserID
         fetch('https://reqres.in/api/posts', requestOptions)
             .then(response => console.log(response.json()))
-            //.then(data => this.setState({ postId: data.id }));
+        //.then(data => this.setState({ postId: data.id }));
+
+
+        setUsers(newUser)
 
         setname('')
         setemail('')

@@ -1,10 +1,10 @@
 .Ticker{
-    background-color: grey;
+    background-color: transparent;
     width: 100%;
-    position: relative;
+    position: fixed;
 }
-.Tick{
 
+.Tick{
     border-width: 0.5px;
     width: 20%;
     display: inline;

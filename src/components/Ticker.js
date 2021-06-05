@@ -5,35 +5,9 @@ import './Ticker.css';
 function Ticker({Ticks}) {
     return (
         <div className={'Ticker'}>
-                {Ticks.map((Tick, i)=>console.log(Tick))}
-            <div className={'Tick'}>Box</div>
-            <div className={'Tick'}>Box</div>
-            <div className={'Tick'}>Box</div>
-            <div className={'Tick'}>Box</div>
-            < div className={'Tick'}>Box</div>
-            <div className={'Tick'}>Box</div>
-            <div className={'Tick'}>Box</div>
-            <div className={'Tick'}>Box</div>
-            <div className={'Tick'}>Box</div>
-            <div className={'Tick'}>Box</div>
-            <div className={'Tick'}>Box</div>
-            <div className={'Tick'}>Box</div>
-            <div className={'Tick'}>Box</div>
-            <div className={'Tick'}>Box</div>
-            <div className={'Tick'}>Box</div>
-            <div className={'Tick'}>Box</div>
-            <div className={'Tick'}>Box</div>
-            <div className={'Tick'}>Box</div>
-            <div className={'Tick'}>Box</div>
-            <div className={'Tick'}>Box</div>
-            <div className={'Tick'}>Box</div>
-            <div className={'Tick'}>Box</div>
-            <div className={'Tick'}>Box</div>
-            <div className={'Tick'}>Box</div>
-            <div className={'Tick'}>Box</div>
 
         </div>
     );
 }
-
+/* {Ticks && Ticks.map((Tick, i)=> <div className={'Tick'} key={i}>Name: {Tick}</div>)}*/
 export default Ticker;

@@ -7,7 +7,23 @@ function Watchlist({Winteract}) {
     const onClickhandler = (key) =>{
         const temp =[...watchlist];
         temp.splice(key, 1);
-        console.log(watchlist);
+
+       const deleteW = 'Hier Post entfernen Endpoint'
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                /*'Authorization': 'Bearer my-token',
+                'My-Custom-Header': 'foobar'*/
+            },
+            body: JSON.stringify({deleteW}) // hier die Daten in den Body mitversenden
+        };
+
+        fetch('https://reqres.in/api/posts', requestOptions)
+            .then(response => console.log(response.json()))
+        //.then(data => this.setState({ postId: data.id }));
+
         setWatchlist(temp);
 
     }
@@ -35,7 +51,9 @@ function Watchlist({Winteract}) {
                                         <li className="list-group-item">Tageshoch</li>
                                         <li className="list-group-item">Tief</li>
                                     </ul>
-                                    <small><button className={"btn btn-sm btn-light"} onClick={event => onClickhandler(i)}> entfernen</button></small>
+                                    <small>
+                                        <button className={"btn btn-sm btn-light"} onClick={event => onClickhandler(i)}> entfernen</button>
+                                    </small>
                                 </a>
                             )}
                     </div>

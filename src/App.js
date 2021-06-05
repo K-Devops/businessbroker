@@ -10,19 +10,33 @@ import {Context} from "./components/UserContext";
 import Moment from 'moment';
 import {SymbolTransfer} from "./components/SymbolTransfer";
 import {TickerCloud} from "./components/TickerCloud";
+import {UserCloud} from "./components/UserCloud";
 
 function App() {
 
+    //API connection to finnhub as Listener
     const finnhub = require('finnhub');
     const api_key = finnhub.ApiClient.instance.authentications['api_key'];
     api_key.apiKey = process.env.REACT_APP_WEATHER_API_KEY ;// Replace this
     const finnhubClient = new finnhub.DefaultApi()
+
+    //States
+    const [users, setUsers] = useState(  [{
+        id: 1,
+        name: 'Tim',
+        email: 'email@hfu.de',
+        password:'hallo',
+    }])
     const [StockNews, setStocknews] = useState(  [])
     const [symbols, setsymbols] = useState(null)
-    const symbolvalue = useMemo(()=> ({symbols, setsymbols}),[symbols, setsymbols]);
     const [Tickers, setTickers] = useState([])
-    const Tickervalues = useMemo(()=>({Tickers, setTickers}),[Tickers, setTickers]);
 
+    //Memos
+    const symbolvalue = useMemo(()=> ({symbols, setsymbols}),[symbols, setsymbols]);
+    const Tickervalues = useMemo(()=>({Tickers, setTickers}),[Tickers, setTickers]);
+    const UserManagement = useMemo(()=>({users, setUsers}),[users, setUsers])
+
+    //Sockets
     const socket = new WebSocket('wss://ws.finnhub.io?token='+ process.env.REACT_APP_WEATHER_API_KEY);
 
     // Similar to componentDidMount and componentDidUpdate:
@@ -37,13 +51,13 @@ function App() {
             });
 
 
-// Listen for messages
+    // Listen for messages
         socket.addEventListener('message', function (event) {
             console.log('Message from server ', event.data);
             setTickers([...Tickers,event.data])
         });
 
-// Unsubscribe
+    // Unsubscribe
         var unsubscribe = function(symbol) {
             socket.send(JSON.stringify({'type':'unsubscribe','symbol': symbol}))
         }
@@ -68,6 +82,7 @@ function App() {
   return (
     <>
     <Router>
+        <UserCloud.Provider value={UserManagement}>
         <Context.Provider value={StockNews}>
             <TickerCloud.Provider value={Tickervalues}>
          <Navbar/>
@@ -81,6 +96,7 @@ function App() {
              <Route path='/Impressum' exact component={Impressum}/>
          </Switch>
         </Context.Provider>
+        </UserCloud.Provider>
     </Router>
     </>
   );

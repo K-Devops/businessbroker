@@ -8,23 +8,30 @@ import Moment from "moment";
 //import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts/highstock'
+import axios from "axios";
+import StockOrderManager from "./StockOrderManager";
+import {Register} from "../Login/register";
 
 
 function StockDashboard(props) {
-
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
     const {symbols, setsymbols} = useContext(SymbolTransfer);
     const [stockProfile2, setStockProfile2] = useState('')
     const {watchlist, setWatchlist} = props.Winteract;
     const [CompanyNews, setCompanyNews] = useState([])
     const [StockData, setStockData] = useState([])
-    const [times, settimes] = useState([new Date()])
+    const [times, settimes] = useState([null])
     const request = require('request');
     const scdrequest = require('request');
     const thrdrequest = require('request');
     const fourrequest = require('request');
-    var a = [];
+    var a = ['',];
     var Today = Moment().format('YYYY-MM-DD')
     var Yesterday = Moment(new Date()).subtract(7, "days").format('YYYY-MM-DD')
+
+    //Options for Highchartsstockdiagramm (default)
     const [options,setoptions] = useState( {
         title: {
             text: 'My chart'
@@ -57,9 +64,34 @@ function StockDashboard(props) {
         }]
     })
 
+    //User bought some stocks
+    const onBuyhanlder = (e) =>{
+        handleShow();
+    }
+
+    // Add item to Watchlist
     const onClickhandler=(stockProfile2)=>{
+
+        if(watchlist.includes(stockProfile2)){
+            alert('Wurde bereits hinzugefügt')
+            return
+        }
         setWatchlist([...watchlist, stockProfile2])
         //console.log(watchlist)
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                /*'Authorization': 'Bearer my-token',
+                'My-Custom-Header': 'foobar'*/
+            },
+            body: JSON.stringify({stockProfile2}) // hier die Daten in den Body mitversenden
+        };
+
+        fetch('https://reqres.in/api/posts', requestOptions)
+            .then(response => console.log(response.json()))
+        //.then(data => this.setState({ postId: data.id }));
     }
 
     useEffect(()=>{
@@ -91,32 +123,44 @@ function StockDashboard(props) {
             fourrequest('https://finnhub.io/api/v1/stock/candle?symbol='+symbols+'&resolution=1&from=1615298999&to='+unixTimeStamp+'&token='+ process.env.REACT_APP_WEATHER_API_KEY, { json: true }, (err, res, body) => {
             if (err) { return console.log(err); }
             console.log(body);
-
-
             settimes(body.t)
-            {
-                if(times.length>0){times.map((time, i)=>
-                    a.push(new Date(time*1000).toLocaleDateString("de"))
-                )}
+                if(body.s == 'ok'){
+                    unixtoDateConverter(body)
+                }
+            if(a!=0){
+                setoptions({series:[
+                        {name:'Tief',data:body.l,tooltip: {
+                                valueDecimals: 1,
+                                valueSuffix: `${stockProfile2.currency}`
+                            }},
+                        {name:'Hoch',data:body.h,tooltip: {
+                                valueDecimals: 1,
+                                valueSuffix: `${stockProfile2.currency}`
+                            }}],
+                    xAxis: {categories: (a) },
+                } )
             }
-
-            setoptions({series:[
-                    {name:'Tief',data:body.l,tooltip: {
-                            valueDecimals: 1,
-                            valueSuffix: `${stockProfile2.currency}`
-                        }},
-                    {name:'Hoch',data:body.h,tooltip: {
-                            valueDecimals: 1,
-                            valueSuffix: `${stockProfile2.currency}`
-                        }}],
-                title:{text:`${stockProfile2.name}`},
-                subtitle:{text:'Quelle: '+ `${stockProfile2.weburl}`},
-                xAxis: {categories: (a) },
-            } )
 
 
         });
         }, [symbols])
+
+    const unixtoDateConverter = (m) =>{
+        console.log('m',m)
+        if(m.s == "no_data") {
+            console.log(m.s)
+        }else
+        {m.t && m.t.map((time, i)=>
+            a.push(new Date(time*1000).toLocaleDateString("de"))
+        )}
+        console.log('a',a)
+    }
+
+    useEffect(()=>{
+        setoptions({
+            title:{text:`${stockProfile2.name}`},
+            subtitle:{text:'Quelle: '+ `${stockProfile2.weburl}`}} )
+    },[ stockProfile2.name])
 
     return (
         <Modal size={'xl'}  show={props.show} onHide={props.handleClose}>
@@ -132,8 +176,9 @@ function StockDashboard(props) {
                                 highcharts={Highcharts}
                                 options={options}
                                 constructorType={'stockChart'}
-                            />
+                                allowChartUpdate = { true}
 
+                            />
                             <p></p>
                             <h5>{Moment().format( "MMMM do, yyyy ")}</h5>
                             <table className="table table-hover">
@@ -162,6 +207,7 @@ function StockDashboard(props) {
                                 <img src={stockProfile2.logo}  />
                             </div>
                             <h4> {stockProfile2.name} </h4>
+
                             <ul className="list-group">
                                 <li className="list-group-item">Börse: {stockProfile2.exchange}</li>
                                 <li className="list-group-item">Markt: {stockProfile2.country} Markt</li>
@@ -172,8 +218,13 @@ function StockDashboard(props) {
                             <button onClick={event => onClickhandler(stockProfile2)} className={'btn btn-outline-secondary'} >Zur Watchlist hinzufügen</button>
                         </div>
                             <div>
-                                <button className={'btn btn-secondary'} style={{margin:'10%'}}>Kaufen</button>
-                                <button className={'btn btn-secondary'} style={{margin:'10%'}}>Verkaufen</button>
+                                <button className={'btn btn-secondary'} style={{margin:'10%'}} onClick={onBuyhanlder}>Wertpapier ordern</button>
+                                <StockOrderManager
+                                    show={show}
+                                    handleClose={handleClose}
+                                    stockName ={stockProfile2.name}
+                                    stockSymbol = {symbols}
+                                />
                             </div>
                         </div>
                     </div>
@@ -209,6 +260,7 @@ function StockDashboard(props) {
                 </Button>
             </Modal.Footer>
         </Modal>
+
     );
 }
 

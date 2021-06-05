@@ -9,7 +9,7 @@ function Searchline({Winteract}) {
     const {symbols, setsymbols} = useContext(SymbolTransfer);
     const [stocks, setStocks] = useState(null)
     const request = require('request');
-    const [input, setInput] = useState(' ')
+    const [input, setInput] = useState('')
     const {watchlist, setWatchlist} = Winteract;
     const WatchlistMemo = useMemo(()=> ({watchlist, setWatchlist}),[watchlist, setWatchlist]);
     const [show, setShow] = useState(false);
