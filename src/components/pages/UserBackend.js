@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useMemo, useState} from 'react';
 import Footer from "../Footer";
-import Watchlist from "../UserBackend/Watchlist";
+import DepotOverview from "../UserBackend/DepotOverview";
 import Updates from "../UserBackend/Updates";
 import {Context} from "../UserContext";
 import Searchline from "../UserBackend/Searchline";
@@ -47,7 +47,7 @@ function UserBackend() {
     return (
         <>
             <Searchline Winteract={WatchlistMemo}  />
-            <Watchlist Winteract={WatchlistMemo}  />
+            <DepotOverview Winteract={WatchlistMemo}  />
             <Updates news={news} />
             <Footer />
         </>

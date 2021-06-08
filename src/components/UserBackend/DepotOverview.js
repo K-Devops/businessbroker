@@ -1,11 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
-import './Watchlist.css';
+import './DepotOverview.css';
 import axios from "axios";
 import {UserCloud} from "../UserCloud";
 import {SymbolTransfer} from "../SymbolTransfer";
 
 
-function Watchlist({Winteract}) {
+function DepotOverview({Winteract}) {
 
     const {watchlist, setWatchlist} = Winteract;
     const {users, setUsers}= useContext(UserCloud);
@@ -13,7 +13,7 @@ function Watchlist({Winteract}) {
     const [StockList, setStockList] = useState([])
     const [Stockvalues, setStockValues] = useState([])
     const {symbols, setsymbols} = useContext(SymbolTransfer)
-    let array = []
+    var i = 0 ;
 
 
 
@@ -25,6 +25,7 @@ function Watchlist({Winteract}) {
             .then(response => response.data)
             .then(data => setWatchlist(data))
 
+        for (i; i < watchlist.length; i++);
     }, [])
 
     useEffect(()=>{
@@ -35,19 +36,14 @@ function Watchlist({Winteract}) {
                         if (err) {
                             return console.log(err);
                         }
-                        console.log(i)
                         body[0] = listitem
-                        array.push(body)
-                        setStockList([...StockList, body])
-
-
-
+                        setStockList([ body,...StockList])
                         });
 
                 })
         console.log(StockList)
 
-    }, [watchlist])
+    }, [i])
 
 
 
@@ -99,4 +95,4 @@ function Watchlist({Winteract}) {
     );
 }
 
-export default Watchlist;
+export default DepotOverview;
