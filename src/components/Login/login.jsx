@@ -1,9 +1,10 @@
-import React, {useState, useContext}  from "react";
+import React, {useState, useContext, useEffect} from "react";
 import {Modal} from "react-bootstrap";
 import {Button} from "../Button";
 import {FaTimes} from "react-icons/fa";
 import { useHistory } from "react-router-dom";
 import {UserCloud} from "../UserCloud";
+import axios from "axios";
 
 
 export const Login = (props) => {
@@ -18,14 +19,40 @@ export const Login = (props) => {
         history.push(path);
     }
 
+    useEffect(()=>{
+
+        console.log(users)
+
+    },[users])
+
     const onsubmit = (e) =>{
         e.preventDefault();
+        let logindata = {
+            "username":name,
+            "password":password
+        }
 
-            if(name== ''){
+        //Anlegen eines Users nach erfolgreicher registrierung (Luisa)
+        axios.post('http://localhost:8083/api/auth/signin', logindata)
+            .then(response => response.data)
+            .then(data => setUsers(data))
+            .then(data => console.log(data))
+
+        /*
+        //Anlegen eines Users nach erfolgreicher registrierung (Jan)
+            axios.post('http://localhost:8080/investmentService/users/'+users.id)
+            .then(response => response.data)
+            .then(data => console.log(data)
+            )*/
+
+            if(users.id!=1){
                 console.log("Start Session"); /*Hier Session starten*/
                 routeChange();
                 props.setLogin(true)
+            }else{
+                alert('Die Eingabedaten waren ungültig')
             }
+
         setname('')
         setpassword('')
     }

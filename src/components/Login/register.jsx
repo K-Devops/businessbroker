@@ -35,19 +35,20 @@ export const Register = (props) => {
         alert("Die Passwörter stimmen nicht überein. Versuchen Sie es erneut.")
         return
     }
+        let struktur = {
+            "username": name,
+            "email":email,
+            "password": password,
+            "roles":["Role_User"]
+        }
 
-        const id = Math.floor(Math.random()*10000) +1
-        const newUser = {id,name,email,password }
 
-
-        setUsers(newUser)
-
-
-        //Anlegen eines Users nach erfolgreicher registrierung (Jan)
-        axios.post('http://localhost:8080/investmentService/users/'+id)
+        //Anlegen eines Users nach erfolgreicher registrierung (Luisa)
+        axios.post('http://localhost:8083/api/auth/signup', struktur)
             .then(response => response.data)
             .then(data => console.log(data)
             )
+
 
         setname('')
         setemail('')

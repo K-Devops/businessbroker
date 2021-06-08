@@ -17,7 +17,6 @@ function Searchline({Winteract}) {
     const handleShow = () => setShow(true);
 
 
-    // Similar to componentDidMount and componentDidUpdate:
     const onClickhandler= (e)=>{
         e.preventDefault();
         setsymbols(input)
