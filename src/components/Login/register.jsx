@@ -3,6 +3,7 @@ import {Modal} from "react-bootstrap";
 import {Button} from "../Button";
 import {FaTimes} from "react-icons/fa";
 import {UserCloud} from "../UserCloud";
+import axios from "axios";
 
 
 export const Register = (props) => {
@@ -37,24 +38,16 @@ export const Register = (props) => {
 
         const id = Math.floor(Math.random()*10000) +1
         const newUser = {id,name,email,password }
-        //Schicke neuen User zu Luisa
-        const requestOptions = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                /*'Authorization': 'Bearer my-token',
-                'My-Custom-Header': 'foobar'*/
-            },
-            body: JSON.stringify({ newUser })
-        };
-
-        //erhalte UserID
-        fetch('https://reqres.in/api/posts', requestOptions)
-            .then(response => console.log(response.json()))
-        //.then(data => this.setState({ postId: data.id }));
 
 
         setUsers(newUser)
+
+
+        //Anlegen eines Users nach erfolgreicher registrierung (Jan)
+        axios.post('http://localhost:8080/investmentService/users/'+id)
+            .then(response => response.data)
+            .then(data => console.log(data)
+            )
 
         setname('')
         setemail('')

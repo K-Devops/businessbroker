@@ -3,17 +3,18 @@ import {Modal} from "react-bootstrap";
 import {Button} from "../Button";
 import {FaTimes} from "react-icons/fa";
 import { useHistory } from "react-router-dom";
+import {UserCloud} from "../UserCloud";
 
 
 export const Login = (props) => {
 
-
+    const {users, setUsers}= useContext(UserCloud);
     const [name, setname] = useState('')
     const [password, setpassword] = useState('')
     const history = useHistory();
 
     const routeChange = () =>{
-        let path = "/Dashboard" + '?=user' + 'id' /*Hier ganz wichtig die ID Einbauen für Bookmark*/;
+        let path = "/Dashboard" + '?=user' + users.id ;
         history.push(path);
     }
 

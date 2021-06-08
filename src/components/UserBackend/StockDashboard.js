@@ -5,12 +5,11 @@ import {Button} from "../Button";
 import {SymbolTransfer} from "../SymbolTransfer";
 import './StockDashboard.css'
 import Moment from "moment";
-//import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts/highstock'
 import axios from "axios";
 import StockOrderManager from "./StockOrderManager";
-import {Register} from "../Login/register";
+import {UserCloud} from "../UserCloud";
 
 
 function StockDashboard(props) {
@@ -30,6 +29,7 @@ function StockDashboard(props) {
     var a = ['',];
     var Today = Moment().format('YYYY-MM-DD')
     var Yesterday = Moment(new Date()).subtract(7, "days").format('YYYY-MM-DD')
+    const {users, setUsers}= useContext(UserCloud);
 
     //Options for Highchartsstockdiagramm (default)
     const [options,setoptions] = useState( {
@@ -37,7 +37,9 @@ function StockDashboard(props) {
             text: 'My chart'
         },
         rangeSelector: {
-            inputDateFormat: '%b %e, %Y'
+            inputDateFormat: '%b %e, %Y',
+            pointStart: Date.UTC(2020, 0, 30),
+            enabled: false
         },
         subtitle: {
             text: ''
@@ -70,28 +72,19 @@ function StockDashboard(props) {
     }
 
     // Add item to Watchlist
-    const onClickhandler=(stockProfile2)=>{
-
-        if(watchlist.includes(stockProfile2)){
+    const onClickhandler=(symbol)=>{
+        if(watchlist.includes(symbol)){
             alert('Wurde bereits hinzugefügt')
             return
         }
-        setWatchlist([...watchlist, stockProfile2])
-        //console.log(watchlist)
+        setWatchlist([...watchlist, symbol])
 
-        const requestOptions = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                /*'Authorization': 'Bearer my-token',
-                'My-Custom-Header': 'foobar'*/
-            },
-            body: JSON.stringify({stockProfile2}) // hier die Daten in den Body mitversenden
-        };
+        //Add item to watchlist
+        axios.post('http://localhost:8080/investmentService/users/'+users.id+'/watchlist/'+symbol)
+            .then(response => response.data)
+            .then(data => console.log( data)
+            )
 
-        fetch('https://reqres.in/api/posts', requestOptions)
-            .then(response => console.log(response.json()))
-        //.then(data => this.setState({ postId: data.id }));
     }
 
     useEffect(()=>{
@@ -99,7 +92,6 @@ function StockDashboard(props) {
 
         request('https://finnhub.io/api/v1/stock/profile2?symbol='+symbols+'&token=' + process.env.REACT_APP_WEATHER_API_KEY, { json: true }, (err, res, body) => {
             if (err) { return console.log(err); }
-           // console.log(body,'Wird im StockDashboard verarbeitet');
             setStockProfile2(body)
         });
 
@@ -117,17 +109,16 @@ function StockDashboard(props) {
 
         var date = new Date();
         var unixTimeStamp = Math.floor(date.getTime() / 1000);
-        {console.log(unixTimeStamp)}
         var year = Moment(date).subtract(11, 'months');
 
             fourrequest('https://finnhub.io/api/v1/stock/candle?symbol='+symbols+'&resolution=1&from=1615298999&to='+unixTimeStamp+'&token='+ process.env.REACT_APP_WEATHER_API_KEY, { json: true }, (err, res, body) => {
             if (err) { return console.log(err); }
-            console.log(body);
             settimes(body.t)
                 if(body.s == 'ok'){
                     unixtoDateConverter(body)
                 }
             if(a!=0){
+                console.log(a)
                 setoptions({series:[
                         {name:'Tief',data:body.l,tooltip: {
                                 valueDecimals: 1,
@@ -140,24 +131,21 @@ function StockDashboard(props) {
                     xAxis: {categories: (a) },
                 } )
             }
-
-
         });
         }, [symbols])
 
     const unixtoDateConverter = (m) =>{
-        console.log('m',m)
-        if(m.s == "no_data") {
-            console.log(m.s)
-        }else
-        {m.t && m.t.map((time, i)=>
-            a.push(new Date(time*1000).toLocaleDateString("de"))
-        )}
-        console.log('a',a)
+       a =  m.t.map(function(time){return new Date(time*1000).toLocaleDateString('de')})
+
     }
 
     useEffect(()=>{
         setoptions({
+            rangeSelector: {
+                inputDateFormat: '%b %e, %Y',
+                pointStart: Date.UTC(2020, 0, 30),
+                enabled: false
+            },
             title:{text:`${stockProfile2.name}`},
             subtitle:{text:'Quelle: '+ `${stockProfile2.weburl}`}} )
     },[ stockProfile2.name])
@@ -215,7 +203,7 @@ function StockDashboard(props) {
                                 <li className="list-group-item">Austehende Aktien {stockProfile2.shareOutstanding} </li>
                             </ul>
                             <div className={'watchlistref'} >
-                            <button onClick={event => onClickhandler(stockProfile2)} className={'btn btn-outline-secondary'} >Zur Watchlist hinzufügen</button>
+                            <button onClick={event => onClickhandler(stockProfile2.ticker)} className={'btn btn-outline-secondary'} >Zur Watchlist hinzufügen</button>
                         </div>
                             <div>
                                 <button className={'btn btn-secondary'} style={{margin:'10%'}} onClick={onBuyhanlder}>Wertpapier ordern</button>

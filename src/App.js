@@ -20,6 +20,7 @@ function App() {
     api_key.apiKey = process.env.REACT_APP_WEATHER_API_KEY ;// Replace this
     const finnhubClient = new finnhub.DefaultApi()
 
+
     //States
     const [users, setUsers] = useState(  [{
         id: 1,
@@ -36,44 +37,13 @@ function App() {
     const Tickervalues = useMemo(()=>({Tickers, setTickers}),[Tickers, setTickers]);
     const UserManagement = useMemo(()=>({users, setUsers}),[users, setUsers])
 
-    //Sockets
-    const socket = new WebSocket('wss://ws.finnhub.io?token='+ process.env.REACT_APP_WEATHER_API_KEY);
-
-    // Similar to componentDidMount and componentDidUpdate:
-    useEffect(() => {
-        // Update the document title using the browser API
-
-        console.log(symbols, 'wird benutzt')
-
-            // Connection opened -> Subscribe
-            socket.addEventListener('open', function (event) {
-                socket.send(JSON.stringify({'type':'subscribe', 'symbol': symbols}))
-            });
-
-
-    // Listen for messages
-        socket.addEventListener('message', function (event) {
-            console.log('Message from server ', event.data);
-            setTickers([...Tickers,event.data])
-        });
-
-    // Unsubscribe
-        var unsubscribe = function(symbol) {
-            socket.send(JSON.stringify({'type':'unsubscribe','symbol': symbol}))
-        }
-
-    },[symbols]);
-
-
     useEffect(()=>{
 
         var Today = Moment().format('YYYY-MM-DD')
         var Yesterday = Moment(new Date()).subtract(3, "months").format('YYYY-MM-DD')
-        console.log(Yesterday)
 
         // General news
         finnhubClient.generalNews("general", {}, (error, data, response) => {
-            console.log(data)
             setStocknews(data)
         });
 
@@ -91,9 +61,9 @@ function App() {
              <Route path='/' exact component={Home} />
              <SymbolTransfer.Provider value={symbolvalue}>
              <Route path='/Dashboard' exact component={UserBackend} />
+                 <Route path='/AGB' exact component={AGB}/>
+                 <Route path='/Impressum' exact component={Impressum}/>
              </SymbolTransfer.Provider>
-             <Route path='/AGB' exact component={AGB}/>
-             <Route path='/Impressum' exact component={Impressum}/>
          </Switch>
         </Context.Provider>
         </UserCloud.Provider>
