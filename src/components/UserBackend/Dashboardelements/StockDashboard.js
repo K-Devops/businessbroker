@@ -1,22 +1,25 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Modal, Tooltip} from "react-bootstrap";
 import {FaTimes} from "react-icons/fa";
-import {Button} from "../Button";
-import {SymbolTransfer} from "../SymbolTransfer";
+import {Button} from "../../Button";
+import {SymbolCloud} from "../../SymbolCloud";
 import './StockDashboard.css'
 import Moment from "moment";
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts/highstock'
 import axios from "axios";
 import StockOrderManager from "./StockOrderManager";
-import {UserCloud} from "../UserCloud";
+import {UserCloud} from "../../UserCloud";
+import StockTable from "./StockTable";
+import StockListTable from "./StockListTable";
+import NewsBlock from "./NewsBlock";
 
 
 function StockDashboard(props) {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const {symbols, setsymbols} = useContext(SymbolTransfer);
+    const {symbols, setsymbols} = useContext(SymbolCloud);
     const [stockProfile2, setStockProfile2] = useState('')
     const {watchlist, setWatchlist} = props.Winteract;
     const [CompanyNews, setCompanyNews] = useState([])
@@ -168,27 +171,7 @@ function StockDashboard(props) {
 
                             />
                             <p></p>
-                            <h5>{Moment().format( "MMMM do, yyyy ")}</h5>
-                            <table className="table table-hover">
-                                <thead>
-                                <tr>
-                                    <th scope="col">Öffnungspreis</th>
-                                    <th scope="col">Tageshoch</th>
-                                    <th scope="col">Tagestief</th>
-                                    <th scope="col">Aktueller Preis</th>
-                                    <th scope="col">Letzter Schlusspreis</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>{StockData.o} {stockProfile2.currency}</td>
-                                    <td>{StockData.h}{stockProfile2.currency}</td>
-                                    <td>{StockData.l}{stockProfile2.currency}</td>
-                                    <td>{StockData.c}{stockProfile2.currency}</td>
-                                    <td>{StockData.pc}{stockProfile2.currency}</td>
-                                </tr>
-                                </tbody>
-                            </table>
+                            <StockTable StockData={StockData} stockProfile2={stockProfile2}/>
                         </div>
                         <div className={'col-4'} style={{marginLeft:'5%'}}>
                             <div>
@@ -203,8 +186,8 @@ function StockDashboard(props) {
                                 <li className="list-group-item">Austehende Aktien {stockProfile2.shareOutstanding} </li>
                             </ul>
                             <div className={'watchlistref'} >
-                            <button onClick={event => onClickhandler(stockProfile2.ticker)} className={'btn btn-outline-secondary'} >Zur Watchlist hinzufügen</button>
-                        </div>
+                                <button onClick={event => onClickhandler(stockProfile2.ticker)} className={'btn btn-outline-secondary'} >Zur Watchlist hinzufügen</button>
+                            </div>
                             <div>
                                 <button className={'btn btn-secondary'} style={{margin:'10%'}} onClick={onBuyhanlder}>Wertpapier ordern</button>
                                 <StockOrderManager
@@ -216,25 +199,7 @@ function StockDashboard(props) {
                             </div>
                         </div>
                     </div>
-                    <div style={{marginTop:'5%'}}>
-                    <div>
-                        <h5>Aktuelle News zu {stockProfile2.name} </h5>
-                    </div>
-                    <div className={'card-group'}>
-                        {CompanyNews.slice(0,4).map((CompanyNew, i )=>
-                            <div className={'card'} key={i} >
-                                <img src={CompanyNew.image} className={'card-img-top'} style={{width:'93%'}} />
-                                <div className={'card-body'}>
-                                    <h6 className={'card-title'}><b>{CompanyNew.headline}</b></h6>
-                                    <p className={'card-text'}><small>{CompanyNew.summary}</small></p>
-                                </div>
-                                <div className="card-footer">
-                                    <small className="text-muted">Source: {CompanyNew.source}</small>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                </div>
+                    <NewsBlock stockProfile2={stockProfile2} CompanyNews={CompanyNews}/>
                 </div>
             </Modal.Body>
             <Modal.Footer>

@@ -5,6 +5,7 @@ import './Navbar.css';
 import {Login} from "./Login/login";
 import Ticker from "./Ticker";
 import {TickerCloud} from "./TickerCloud";
+import {UserCloud} from "./UserCloud";
 
 
 function Navbar() {
@@ -17,6 +18,8 @@ function Navbar() {
     const closeMobileMenu = () => setClick(false);
     const [login, setlogin] = useState(false);
     const {Tickers, setTickers} = useContext(TickerCloud)
+    const {users, setUsers}= useContext(UserCloud);
+
 
     const handleLogging =() =>{
         handleShow();
@@ -25,6 +28,7 @@ function Navbar() {
 
         if(login == true){
             setlogin(!login)
+            setUsers('')
             console.log("Session beendet")
         }
     }

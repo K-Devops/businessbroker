@@ -1,12 +1,12 @@
 import React, {useContext, useEffect, useMemo, useState} from 'react';
 import './Searchline.css';
-import {SymbolTransfer} from "../SymbolTransfer";
-import StockDashboard from "./StockDashboard";
+import {SymbolCloud} from "../SymbolCloud";
+import StockDashboard from "./Dashboardelements/StockDashboard";
 
 
 function Searchline({Winteract}) {
 
-    const {symbols, setsymbols} = useContext(SymbolTransfer);
+    const {symbols, setsymbols} = useContext(SymbolCloud);
     const [stocks, setStocks] = useState(null)
     const request = require('request');
     const [input, setInput] = useState('')

@@ -4,14 +4,14 @@ import DepotOverview from "../UserBackend/DepotOverview";
 import Updates from "../UserBackend/Updates";
 import {Context} from "../UserContext";
 import Searchline from "../UserBackend/Searchline";
-import {SymbolTransfer} from "../SymbolTransfer";
+import {SymbolCloud} from "../SymbolCloud";
 import {TickerCloud} from "../TickerCloud";
 
 
 /*Check if session was startet, else -> PLEASE LOGIN!!*/
 function UserBackend() {
         const {Tickers, setTickers} = useState(TickerCloud)
-        const {symbols, setsymbols} = useContext(SymbolTransfer)
+        const {symbols, setsymbols} = useContext(SymbolCloud)
         const news = useContext(Context);
         const [watchlist, setWatchlist] = useState([])
         const WatchlistMemo = useMemo(()=> ({watchlist, setWatchlist}),[watchlist, setWatchlist]);

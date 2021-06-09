@@ -15,13 +15,28 @@ export const Login = (props) => {
     const history = useHistory();
 
     const routeChange = () =>{
+        //Anlegen eines Users nach erfolgreicher registrierung (Jan)
+        axios.post('http://localhost:8080/investmentService/users/'+users.id)
+            .then(response => response.data)
+            .then(data => console.log(data)
+            )
+
         let path = "/Dashboard" + '?=user' + users.id ;
         history.push(path);
     }
 
     useEffect(()=>{
+        console.log(users.username, 'users')
+        console.log(name)
 
-        console.log(users)
+        if(users.username==name){
+            routeChange()
+        }else{
+            alert('Bitte Registrieren Sie sich oder kontaktieren Sie den Support')
+        }
+
+        setname('')
+        setpassword('')
 
     },[users])
 
@@ -32,29 +47,12 @@ export const Login = (props) => {
             "password":password
         }
 
-        //Anlegen eines Users nach erfolgreicher registrierung (Luisa)
+        //Abfrage nach Login (Luisa)
         axios.post('http://localhost:8083/api/auth/signin', logindata)
             .then(response => response.data)
             .then(data => setUsers(data))
-            .then(data => console.log(data))
+            .then(data=> console.log(data))
 
-        /*
-        //Anlegen eines Users nach erfolgreicher registrierung (Jan)
-            axios.post('http://localhost:8080/investmentService/users/'+users.id)
-            .then(response => response.data)
-            .then(data => console.log(data)
-            )*/
-
-            if(users.id!=1){
-                console.log("Start Session"); /*Hier Session starten*/
-                routeChange();
-                props.setLogin(true)
-            }else{
-                alert('Die Eingabedaten waren ungültig')
-            }
-
-        setname('')
-        setpassword('')
     }
 
         return (

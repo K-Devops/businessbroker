@@ -13,7 +13,6 @@ export const Register = (props) => {
     const [password, setpassword] = useState('')
     const [passwordtwo, setpasswordtwo] = useState('')
     const [checkbox, setcheckbox] = useState(false)
-    const {users, setUsers} = useContext(UserCloud);
 
     const handleChange = (e) => {
         setcheckbox(!checkbox)
@@ -42,13 +41,11 @@ export const Register = (props) => {
             "roles":["Role_User"]
         }
 
-
         //Anlegen eines Users nach erfolgreicher registrierung (Luisa)
         axios.post('http://localhost:8083/api/auth/signup', struktur)
             .then(response => response.data)
             .then(data => console.log(data)
             )
-
 
         setname('')
         setemail('')

@@ -8,7 +8,7 @@ import AGB from "./components/pages/AGB"
 import Impressum from "./components/pages/Impressum";
 import {Context} from "./components/UserContext";
 import Moment from 'moment';
-import {SymbolTransfer} from "./components/SymbolTransfer";
+import {SymbolCloud} from "./components/SymbolCloud";
 import {TickerCloud} from "./components/TickerCloud";
 import {UserCloud} from "./components/UserCloud";
 
@@ -22,12 +22,7 @@ function App() {
 
 
     //States
-    const [users, setUsers] = useState(  [{
-        id: 1,
-        name: 'Tim',
-        email: 'email@hfu.de',
-        password:'hallo',
-    }])
+    const [users, setUsers] = useState(  [])
     const [StockNews, setStocknews] = useState(  [])
     const [symbols, setsymbols] = useState(null)
     const [Tickers, setTickers] = useState([])
@@ -59,11 +54,11 @@ function App() {
             </TickerCloud.Provider>
          <Switch>
              <Route path='/' exact component={Home} />
-             <SymbolTransfer.Provider value={symbolvalue}>
+             <SymbolCloud.Provider value={symbolvalue}>
              <Route path='/Dashboard' exact component={UserBackend} />
                  <Route path='/AGB' exact component={AGB}/>
                  <Route path='/Impressum' exact component={Impressum}/>
-             </SymbolTransfer.Provider>
+             </SymbolCloud.Provider>
          </Switch>
         </Context.Provider>
         </UserCloud.Provider>

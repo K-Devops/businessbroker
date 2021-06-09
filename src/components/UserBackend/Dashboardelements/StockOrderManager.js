@@ -2,15 +2,15 @@ import React, {useContext, useState} from 'react';
 import './StockOrderManager.css';
 import {Modal} from "react-bootstrap";
 import {FaTimes} from "react-icons/fa";
-import {Button} from "../Button";
+import {Button} from "../../Button";
 import Moment from "moment";
-import {UserCloud} from "../UserCloud";
+import {UserCloud} from "../../UserCloud";
+import axios from "axios";
 
 function StockOrderManager(props) {
 
     const [amount, setAmount] = useState('');
     const {users, setUsers}= useContext(UserCloud);
-    const [userid, setUserid] =useState('');        // Hier ist deine Userid drin wenn du die benötigst
 
 
     const placeOrder= () =>{
@@ -22,21 +22,11 @@ function StockOrderManager(props) {
 
         const Order = [amount,users.id,props.stockSymbol];
 
-        const requestOptions = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                /*'Authorization': 'Bearer my-token',
-                'My-Custom-Header': 'foobar'*/
-            },
-            body: JSON.stringify({Order}) //
-        };
-
-        fetch('https://reqres.in/api/posts', requestOptions)
-            .then(response => console.log(response.json()))
-        //.then(data => this.setState({ postId: data.id }));
-
-
+        //Create Empty Investment
+        axios.post('http://localhost:8080/investmentService/users/'+users.id)
+            .then(response => response.data)
+            .then(data => console.log(data)
+            )
         {props.handleClose() }
     }
 
