@@ -31,8 +31,6 @@ export const Login = (props) => {
 
         if(users.username==name){
             routeChange()
-        }else{
-            alert('Bitte Registrieren Sie sich oder kontaktieren Sie den Support')
         }
 
         setname('')

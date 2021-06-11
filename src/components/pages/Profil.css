@@ -1,0 +1,47 @@
+button{
+    margin-left: 5%;
+}
+
+.OrderOverview{
+    Margin-Top:5%
+}
+
+div .border{
+    padding: 2%;
+    border-radius: 2em;
+    margin-left: 5%;
+}
+
+label{
+    font-size: large;
+}
+
+.purchaseTable, .salesTable {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    width:100%
+}
+.purchaseTable, .salesTable thead tr {
+    background-color: white;
+    color: dimgrey;
+    text-align: left;
+}
+.purchaseTable th, .salesTable th,
+.purchaseTable td, .salesTable td {
+    padding: 12px 15px;
+}
+.purchaseTable tbody tr,
+.salesTable tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.purchaseTable tbody tr:last-of-type,
+.salesTable tbody tr:last-of-type
+{
+    border-bottom: 2px solid grey;
+}
+

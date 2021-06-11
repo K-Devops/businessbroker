@@ -11,7 +11,6 @@ import axios from "axios";
 import StockOrderManager from "./StockOrderManager";
 import {UserCloud} from "../../UserCloud";
 import StockTable from "./StockTable";
-import StockListTable from "./StockListTable";
 import NewsBlock from "./NewsBlock";
 
 
@@ -93,18 +92,18 @@ function StockDashboard(props) {
     useEffect(()=>{
 
 
-        request('https://finnhub.io/api/v1/stock/profile2?symbol='+symbols+'&token=' + process.env.REACT_APP_WEATHER_API_KEY, { json: true }, (err, res, body) => {
+        request('https://finnhub.io/api/v1/stock/profile2?symbol='+symbols+'&token=' + process.env.REACT_APP_API_KEY, { json: true }, (err, res, body) => {
             if (err) { return console.log(err); }
             setStockProfile2(body)
         });
 
-        scdrequest('https://finnhub.io/api/v1/company-news?symbol='+symbols+'&from='+Yesterday+'&to='+Today+'&token=' + process.env.REACT_APP_WEATHER_API_KEY, { json: true }, (err, res, body) => {
+        scdrequest('https://finnhub.io/api/v1/company-news?symbol='+symbols+'&from='+Yesterday+'&to='+Today+'&token=' + process.env.REACT_APP_API_KEY, { json: true }, (err, res, body) => {
             if (err) { return console.log(err); }
             setCompanyNews(body);
 
         });
 
-        thrdrequest('https://finnhub.io/api/v1/quote?symbol='+symbols+'&token='+ process.env.REACT_APP_WEATHER_API_KEY, { json: true }, (err, res, body) => {
+        thrdrequest('https://finnhub.io/api/v1/quote?symbol='+symbols+'&token='+ process.env.REACT_APP_API_KEY, { json: true }, (err, res, body) => {
             if (err) { return console.log(err); }
             setStockData(body)
 
@@ -114,7 +113,7 @@ function StockDashboard(props) {
         var unixTimeStamp = Math.floor(date.getTime() / 1000);
         var year = Moment(date).subtract(11, 'months');
 
-            fourrequest('https://finnhub.io/api/v1/stock/candle?symbol='+symbols+'&resolution=1&from=1615298999&to='+unixTimeStamp+'&token='+ process.env.REACT_APP_WEATHER_API_KEY, { json: true }, (err, res, body) => {
+            fourrequest('https://finnhub.io/api/v1/stock/candle?symbol='+symbols+'&resolution=1&from=1615298999&to='+unixTimeStamp+'&token='+ process.env.REACT_APP_API_KEY, { json: true }, (err, res, body) => {
             if (err) { return console.log(err); }
             settimes(body.t)
                 if(body.s == 'ok'){

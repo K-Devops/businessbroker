@@ -21,10 +21,11 @@ function Navbar() {
     const {users, setUsers}= useContext(UserCloud);
 
 
+    useEffect(()=>{ if(users.length == 0){setlogin(false)}else{setlogin(true)}},[users])
+
     const handleLogging =() =>{
         handleShow();
         closeMobileMenu();
-
 
         if(login == true){
             setlogin(!login)
@@ -56,14 +57,13 @@ function Navbar() {
                             ONLINE BROKER
                         </Link>
                     </div>
-
                     <div className='menu-icon' onClick={handleClick}>
                         <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
                     </div>
                     <ul className={click ? 'nav-menu active' : 'nav-menu'} >
                         <li className='nav-item' style= {{visibility: login ? 'visible':'hidden' }} >
-                            <Link to='/services' className='nav-links' onClick={closeMobileMenu}>
-                                SERVICES
+                            <Link to='/profil' className='nav-links' onClick={closeMobileMenu}>
+                                PROFILE
                             </Link>
                         </li>
                         <li className='nav-item'>

@@ -11,13 +11,14 @@ import Moment from 'moment';
 import {SymbolCloud} from "./components/SymbolCloud";
 import {TickerCloud} from "./components/TickerCloud";
 import {UserCloud} from "./components/UserCloud";
+import Profil from "./components/pages/Profil";
 
 function App() {
 
     //API connection to finnhub as Listener
     const finnhub = require('finnhub');
     const api_key = finnhub.ApiClient.instance.authentications['api_key'];
-    api_key.apiKey = process.env.REACT_APP_WEATHER_API_KEY ;// Replace this
+    api_key.apiKey = process.env.REACT_APP_API_KEY ;// Replace this
     const finnhubClient = new finnhub.DefaultApi()
 
 
@@ -55,7 +56,8 @@ function App() {
          <Switch>
              <Route path='/' exact component={Home} />
              <SymbolCloud.Provider value={symbolvalue}>
-             <Route path='/Dashboard' exact component={UserBackend} />
+                 <Route path='/profil' exact component={Profil}/>
+                 <Route path='/Dashboard' exact component={UserBackend} />
                  <Route path='/AGB' exact component={AGB}/>
                  <Route path='/Impressum' exact component={Impressum}/>
              </SymbolCloud.Provider>

@@ -34,7 +34,7 @@ function StockOrderManager(props) {
     return (
         <Modal className={'modal fade'} dialogClassName={"modal-dialog modal-dialog-centered" } size={'medium'} tabIndex={"-1"} show={props.show} onHide={props.handleClose}>
             <Modal.Header>
-                <Modal.Title>Wertpapierkauf von {props.stockName} / {props.stockSymbol}</Modal.Title>
+                <Modal.Title> My Ordermanager {   props.stockName} {props.stockSymbol}</Modal.Title>
                 <FaTimes cursor={'pointer'} onClick={props.handleClose}/>
             </Modal.Header>
             <Modal.Body>
@@ -42,7 +42,7 @@ function StockOrderManager(props) {
                     <div className="content">
                         <div className="image">
                             <div>
-                                <p><b>Datum: {Moment().format( "MMMM do, yyyy ")}</b></p>
+                                <p><b>Aktionsdatum: {Moment().format( "DD.MM.yyyy ")}</b></p><br/>
                             </div>
                             <form>
                                 <label htmlFor={'Amount'}>Anzahl

@@ -8,6 +8,7 @@ import {SymbolCloud} from "../SymbolCloud";
 import {TickerCloud} from "../TickerCloud";
 
 
+
 /*Check if session was startet, else -> PLEASE LOGIN!!*/
 function UserBackend() {
         const {Tickers, setTickers} = useState(TickerCloud)
@@ -22,7 +23,7 @@ function UserBackend() {
     // Similar to componentDidMount and componentDidUpdate:
     useEffect(() => {
         //Sockets
-        const socket = new WebSocket('wss://ws.finnhub.io?token='+ process.env.REACT_APP_WEATHER_API_KEY);
+        const socket = new WebSocket('wss://ws.finnhub.io?token='+ process.env.REACT_APP_API_KEY);
 
         // Connection opened -> Subscribe
         socket.addEventListener('open', function (event) {
@@ -45,7 +46,7 @@ function UserBackend() {
 
 
     return (
-        <>
+        < >
             <Searchline Winteract={WatchlistMemo}  />
             <DepotOverview Winteract={WatchlistMemo}  />
             <Updates news={news} />
