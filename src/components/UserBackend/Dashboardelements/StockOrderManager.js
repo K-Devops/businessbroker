@@ -6,6 +6,7 @@ import {Button} from "../../Button";
 import Moment from "moment";
 import {UserCloud} from "../../UserCloud";
 import axios from "axios";
+import CardItem from "../../CardItem";
 
 function StockOrderManager(props) {
 
@@ -18,15 +19,32 @@ function StockOrderManager(props) {
         console.log('Anzahl',amount)
         console.log('UserID',users.id)
         console.log('Symbol',props.stockSymbol)
+        console.log('Price', props.stockPrice)
+
+        let order = {
+            "date": new Date(),
+            "orderId": "stringa",
+            "price": props.stockPrice,
+            "stockSymbol": props.stockSymbol,
+            "type": props.type,
+            "units": amount,
+            "userId": users.id
+        }
+
+        //Order Absenden WICHTIG PORT ANPASSEN
+        axios.post('http://localhost:8081/orderService/orders/',order)
+            .then(response => response.data)
+            .then(data => console.log(data)
+            )
 
 
-        const Order = [amount,users.id,props.stockSymbol];
-
-        //Create Empty Investment
+        /*
+        //Create Empty Investment -- ehrlich gesagt verstehe ich den Unterschied hier nicht
         axios.post('http://localhost:8080/investmentService/users/'+users.id)
             .then(response => response.data)
             .then(data => console.log(data)
             )
+            */
         {props.handleClose() }
     }
 
@@ -34,7 +52,7 @@ function StockOrderManager(props) {
     return (
         <Modal className={'modal fade'} dialogClassName={"modal-dialog modal-dialog-centered" } size={'medium'} tabIndex={"-1"} show={props.show} onHide={props.handleClose}>
             <Modal.Header>
-                <Modal.Title> My Ordermanager {   props.stockName} {props.stockSymbol}</Modal.Title>
+                <Modal.Title> {props.title}</Modal.Title>
                 <FaTimes cursor={'pointer'} onClick={props.handleClose}/>
             </Modal.Header>
             <Modal.Body>
@@ -48,6 +66,9 @@ function StockOrderManager(props) {
                                 <label htmlFor={'Amount'}>Anzahl
                                 <input value={amount} name={'Amount'} className={"form-control"} onChange={event => setAmount(event.target.value)} style={{width:'40%', float:'right'}} type={'number'}/>
                                 </label>
+                                <div className={'receipt'} >
+                                    <label> Gesamtsumme : {amount* props.stockPrice} {props.currency}</label>
+                                </div>
                                 <div className="form-check">
                                     <input type="checkbox" className="form-check-input" />
                                     <label className="form-check-label" htmlFor="exampleCheck1"><small>Hiermit akzeptiere ich die AGB des Online Brokers*</small>   </label>
@@ -62,13 +83,13 @@ function StockOrderManager(props) {
                         buttonSize="btn-sm"
                         link={'/Dashboard'}
                         onClick={placeOrder}>
-                    Kauforder aufgeben
+                    Order ausführen
                 </Button>
                 <Button buttonStyle="btn btn-outline-secondary"
                         buttonSize="btn-sm"
                         link={'/Dashboard'}
                         onClick={props.handleClose }>
-                    Kauf abbrechen
+                    {props.title} abbrechen
                 </Button>
             </Modal.Footer>
         </Modal>
@@ -76,3 +97,9 @@ function StockOrderManager(props) {
 }
 
 export default StockOrderManager;
+
+StockOrderManager.defaultProps= {
+    type : "OPEN",
+    stockPrice:0
+}
+

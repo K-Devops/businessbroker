@@ -66,12 +66,18 @@ function StockOverview(props) {
                                         <td>{} EUR<br/><span className={'small'}>{}</span></td>
                                         <td>{} EUR<br/><span className= {'small'}>{}</span></td>
                                         <td>{}</td>
-                                        <td> <button type="button" className="btn btn-secondary"  style={{backgroundColor:'orange'}} title="Verkaufen" onClick={onSellHandler}><i className="fa fa-coins"></i></button>
+                                        <td>
+                                            <button type="button" className="btn btn-secondary"
+                                                     style={{backgroundColor:'orange', width:'150%'}}
+                                                     onClick={onSellHandler}> Verkaufen &nbsp; <i className="fa fa-coins"></i>
+                                        </button>
                                            <StockOrderManager
                                                show={showSell}
                                                handleClose={handleCloseSell}
                                                stockName ={stockProfile2.name}
                                                stockSymbol = {symbols}
+                                               title = 'Verkaufen'
+                                               type={'CLOSE'} // WIRD VERKAUFT
                                            />
                                             </td>
                                     </tr>

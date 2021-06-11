@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {Button} from './Button';
-import { Link } from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import './Navbar.css';
 import {Login} from "./Login/login";
 import Ticker from "./Ticker";
@@ -19,9 +19,13 @@ function Navbar() {
     const [login, setlogin] = useState(false);
     const {Tickers, setTickers} = useContext(TickerCloud)
     const {users, setUsers}= useContext(UserCloud);
+    const history = useHistory();
 
 
-    useEffect(()=>{ if(users.length == 0){setlogin(false)}else{setlogin(true)}},[users])
+    useEffect(()=>{ if(users.length == 0){setlogin(false)
+        let path = "/" ;
+        history.push(path);
+    }else{setlogin(true)}},[users])
 
     const handleLogging =() =>{
         handleShow();
@@ -64,6 +68,11 @@ function Navbar() {
                         <li className='nav-item' style= {{visibility: login ? 'visible':'hidden' }} >
                             <Link to='/profil' className='nav-links' onClick={closeMobileMenu}>
                                 PROFILE
+                            </Link>
+                        </li>
+                        <li className='nav-item' style= {{visibility: login ? 'visible':'hidden' }} >
+                            <Link to='/Dashboard' className='nav-links' onClick={closeMobileMenu}>
+                                DASHBOARD
                             </Link>
                         </li>
                         <li className='nav-item'>

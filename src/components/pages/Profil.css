@@ -2,6 +2,7 @@ button{
     margin-left: 5%;
 }
 
+
 .OrderOverview{
     Margin-Top:5%
 }
@@ -11,7 +12,9 @@ div .border{
     border-radius: 2em;
     margin-left: 5%;
 }
-
+img{
+    max-width: 350px;
+}
 label{
     font-size: large;
 }

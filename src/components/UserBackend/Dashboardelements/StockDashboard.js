@@ -194,6 +194,9 @@ function StockDashboard(props) {
                                     handleClose={handleClose}
                                     stockName ={stockProfile2.name}
                                     stockSymbol = {symbols}
+                                    title={'Wertpapierkauf'}
+                                    currency={stockProfile2.currency}
+                                    stockPrice = {StockData.c}
                                 />
                             </div>
                         </div>

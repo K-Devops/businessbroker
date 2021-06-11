@@ -6,7 +6,7 @@ import {Context} from "../UserContext";
 import Searchline from "../UserBackend/Searchline";
 import {SymbolCloud} from "../SymbolCloud";
 import {TickerCloud} from "../TickerCloud";
-
+import './UserBackend.css';
 
 
 /*Check if session was startet, else -> PLEASE LOGIN!!*/
@@ -47,10 +47,12 @@ function UserBackend() {
 
     return (
         < >
+            <div className={'UserBackend'}>
             <Searchline Winteract={WatchlistMemo}  />
             <DepotOverview Winteract={WatchlistMemo}  />
             <Updates news={news} />
             <Footer />
+            </div>
         </>
     );
 }

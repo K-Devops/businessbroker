@@ -170,4 +170,7 @@
         color: #242424;
         transition: 250ms;
     }
+    button.btn.btn.btn-outline-light.btn-lg {
+        padding: 5%;
+    }
 }
