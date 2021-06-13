@@ -18,13 +18,14 @@ useEffect(()=>{
          body[0] = listitem
          a.push(body)
      })})
+    console.log(a, 'aa')
+    setArray(a)
 },[props.watchlist])
-
-    console.log(array)
 
     return (
                 <div className="col-4" style={{height:'650px', overflowY:'scroll', padding:'2%'}}>
                     <label htmlFor={"watchlist"}><b>Watchlist</b></label>
+                    {a.map((item, index)=><p>H</p>)}
                     <div className="list-group watch">
                         {props.watchlist.map((value,i)=>
                             <a key={i} id={i}

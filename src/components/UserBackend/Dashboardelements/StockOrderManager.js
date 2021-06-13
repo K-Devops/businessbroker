@@ -13,7 +13,7 @@ function StockOrderManager(props) {
     const [amount, setAmount] = useState('');
     const {users, setUsers}= useContext(UserCloud);
     const [orderStatus, setOrderStatus] = useState(true)
-    const [sellSymbol, setSellSymbol] = useState('M')
+    const [sellSymbol, setSellSymbol] = useState('')
 
     useEffect(()=>{
         if(props.title == 'Verkaufen'){
@@ -90,10 +90,10 @@ function StockOrderManager(props) {
                                 </label>
                                 <div className={'receipt'}  style= {{visibility: orderStatus ? 'hidden':'visible' }} >
                                     <label  htmlFor={'symbol'}>Symbol
-                                        <input value={sellSymbol} name={'symbol'} className={'form-control'} style={{width:'40%', float:'right'}} type={'text'} placeholder={sellSymbol} size={18} onChange={event => {setSellSymbol(event.target.value)}}/>
+                                        <input value={sellSymbol} name={'symbol'} className={'form-control'} style={{width:'40%', float:'right'}} type={'text'} placeholder={props.stockSymbol} size={18} onChange={event => {setSellSymbol(event.target.value)}}/>
                                     </label>
                                 </div>
-                                <div className={'receipt'}  style= {{visibility: orderStatus ? 'visible':'hidden' }} >
+                                <div className={'receipt'}  >
                                     <label> Gesamtsumme : {amount* props.stockPrice} {props.currency}</label>
                                 </div>
                                 <div className="form-check">

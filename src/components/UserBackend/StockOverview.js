@@ -47,57 +47,51 @@ function StockOverview(props) {
                 <Modal.Body>
                     <div className="container" ref={props.containerRef}>
                         <div className={'row'}>
-                            <div className={'col-7'}>
+                        </div>
+                        <div className={'row'}>
+                            <div className={'col-11'}>
                                 <h5>Datum: {Moment().format("DD.MM.yyyy")}</h5><br/>
                                 <table className="table table-hover">
                                     <thead>
                                     <tr>
-                                        <th scope="col">Stk./Nom.<br/><span className={'small'}>(gesperrt)</span></th>
-                                        <th scope="col">Name<br/><span
-                                            className={'small'}>ISIN/WKN/Lagerstelle</span></th>
-                                        <th scope="col">Aktuelle Summe<br/><span className={'small'}> Gesamterfolg (abs. / rel.)</span>
+                                        <th scope="col">Nr.</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Kaufpreis </th>
+                                        <th scope="col">Aktueller Kurs
                                         </th>
-                                        <th scope="col">Aktueller Kurs<br/><span className={'small'}> Diff.Tag (abs. / rel.)</span>
+                                        <th scope="col">Kaufdatum
                                         </th>
-                                        <th scope="col">Zeit<br/><span className={'small'}>Kursquelle</span></th>
                                         <th scope="col">Aktion</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {console.log(props.data, props.symbol)}
-                                    {Object.entries(props.data).map(item=><p>Hallo{item['status']}</p>)}
-                                    <tr>
-                                        <td>{}</td>
-                                        <td>{}<br/><span className={'small'}>{}</span></td>
-                                        <td>{} EUR<br/><span className={'small'}>{}</span></td>
-                                        <td>{} EUR<br/><span className= {'small'}>{}</span></td>
-                                        <td>{}</td>
-                                        <td>
-                                            <button type="button" className="btn btn-secondary"
-                                                     style={{backgroundColor:'orange', width:'125%'}}
-                                                     onClick={onSellHandler}> Verkaufen &nbsp; <i className="fa fa-coins"></i>
-                                        </button>
-                                           <StockOrderManager
-                                               show={showSell}
-                                               handleClose={handleCloseSell}
-                                               stockSymbol = {props.symbol}
-                                               stockPrice={currentcondition.c}
-                                               title = 'Verkaufen'
-                                               type={'CLOSE'} // WIRD VERKAUFT
-                                           />
+                                    {Object.entries(props.data).map(item=>
+                                        <tr>
+                                            <td>{item[0]}</td>
+                                            <td>{item[1].status}</td>
+                                            <td>{item[1].openPrice} USD</td>
+                                            <td>{currentcondition.c} USD</td>
+                                            <td>{item[1].dateOpened} EUR<br/><span className= {'small'}>{}</span></td>
+                                            <td>
+                                                <button type="button" className="btn btn-secondary"
+                                                        style={{backgroundColor:'orange', width:'125%'}}
+                                                        onClick={onSellHandler}> Verkaufen &nbsp; <i className="fa fa-coins"></i>
+                                                </button>
                                             </td>
-                                    </tr>
+                                        </tr>
+                                    )}
+                                    <StockOrderManager
+                                        show={showSell}
+                                        handleClose={handleCloseSell}
+                                        stockSymbol = {props.symbol}
+                                        stockPrice={currentcondition.c}
+                                        title = 'Verkaufen'
+                                        type={'CLOSE'} // WIRD VERKAUFT
+                                    />
                                     </tbody>
                                 </table>
                             </div>
-                            <div className={'col-4'} style={{marginLeft: '5%'}}>
-                                <h4> {props.symbol} </h4>
-                                <ul className="list-group">
-                                    <li className="list-group-item">Tageshoch: {currentcondition.h}</li>
-                                    <li className="list-group-item">Tagestief: {currentcondition.l} Markt</li>
-                                    <li className="list-group-item">Aktueller Preis: {currentcondition.c}</li>
-                                </ul>
-                            </div>
+
                         </div>
                     </div>
                 </Modal.Body>
@@ -114,3 +108,8 @@ function StockOverview(props) {
         );
     }
 export default StockOverview;
+
+StockOverview.defaultProps= {
+    data:''
+
+}

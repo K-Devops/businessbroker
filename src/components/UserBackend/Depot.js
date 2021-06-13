@@ -19,11 +19,10 @@ function Depot(props) {
     const {symbols, setsymbols} = useContext(SymbolCloud);
     const [depot, setdepot] = useState([]);
     const [stockinvestments, setStockinvestments]= useState([])
-
+    const [detailinvestment, setdetailinvestment] = useState([])
 
    // Hiermit holst du dir von Jan beim Laden des Backends die Daten des Users
     useEffect(()=>{
-
         //Get complete user by userId
         axios.get('http://localhost:8080/investmentService/users/'+users.id)
             .then(response => response.data)
@@ -41,8 +40,10 @@ function Depot(props) {
     }
 
     //User see some stocks
-    const onStockHandler = (e) =>{
+    const onStockHandler = (data) =>{
         handleShowStock();
+        setdetailinvestment(data[1]['sharesInPossession'])
+        setsymbols(data[0])
     }
 
     return (
@@ -75,25 +76,24 @@ function Depot(props) {
                         <th>Investitionswert</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    {Object.entries(stockinvestments).map((item, i)=>
+                    <tbody>{Object.entries(stockinvestments).map((item, i)=>
                         <tr key={i} id={i}>
-                        <td>{item[0]}</td>
-                        <td>{item[1]['averagePriceOfInvestment']}</td>
-                        <td>{item[1]['realizedProfitLossOfInvestment']}</td>
-                        <td>{Number(item[1]['valueOfInvestment']).toFixed(2)}</td>
-                        <td>
-                            <div>
-                                <button type="button" value={item} className={'btn btn-primary btn-sm'} style={{backgroundColor:'darkgrey', width:'100%'}} onClick={onStockHandler}> Details <i className="fas fa-search"></i></button>
-                                <StockOverview
-                                    data={item}// Hier muss nur eins übergeben werden
-                                    symbol={item[0]} // Hier muss das mit dem INdex noch angepasst werden
-                                    show={showStock}
-                                    handleClose={handleCloseStock}
-                                />
+                            <td>{item[0]}</td>
+                            <td>{item[1]['averagePriceOfInvestment']}</td>
+                            <td>{item[1]['realizedProfitLossOfInvestment']}</td>
+                            <td>{Number(item[1]['valueOfInvestment']).toFixed(2)}</td>
+                            <td>
+                                <div>
+                                <button type="button" value={item} className={'btn btn-primary btn-sm'} style={{backgroundColor:'darkgrey', width:'100%'}} onClick={() => onStockHandler(item)}> Details <i className="fas fa-search"></i></button>
                             </div>
                         </td>
                     </tr>)}
+                    <StockOverview
+                        data={detailinvestment}
+                        symbol={symbols}
+                        show={showStock}
+                        handleClose={handleCloseStock}
+                    />
                     </tbody>
                 </table>
 
