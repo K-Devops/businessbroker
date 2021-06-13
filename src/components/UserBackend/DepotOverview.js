@@ -21,27 +21,6 @@ function DepotOverview({Winteract}) {
             .then(data => setWatchlist(data))
     }, [])
 
-
-    /*
-    useEffect(()=>{
-    console.log(watchlist)
-
-            watchlist.map((listitem, i) => {
-                    request('https://finnhub.io/api/v1/quote?symbol=' + listitem + '&token=' + process.env.REACT_APP_API_KEY, {json: true}, (err, res, body) => {
-                        if (err) {
-                            return console.log(err);
-                        }
-                        body[0] = listitem
-
-                        setStockList([ body,...StockList])
-
-
-                })
-        console.log(StockList)
-
-    }, [watchlist])*/
-
-
     const onClickhandler = (key) =>{
         const temp =[...watchlist];
         temp.splice(key, 1);

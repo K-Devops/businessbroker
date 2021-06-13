@@ -15,9 +15,10 @@ function Depot(props) {
     const handleShowSell = () => setShowSell(true);
 
     // Ich denke diese Variable wirst du nich brauchen
-    const [stockProfile2, setStockProfile2] = useState('')
     const {users, setUsers}= useContext(UserCloud);
     const {symbols, setsymbols} = useContext(SymbolCloud);
+    const [depot, setdepot] = useState([]);
+    const [stockinvestments, setStockinvestments]= useState([])
 
 
    // Hiermit holst du dir von Jan beim Laden des Backends die Daten des Users
@@ -26,17 +27,13 @@ function Depot(props) {
         //Get complete user by userId
         axios.get('http://localhost:8080/investmentService/users/'+users.id)
             .then(response => response.data)
-            .then(data => console.log(data)
-            )
+            .then(data => octopus(data))
+    },[symbols])
 
-        //Get single user investment by stock symbol
-        axios.get('http://localhost:8080/investmentService/users/'+users.id+'/investments/'+ symbols)
-            .then(response => response.data)
-            .then(data => console.log(data)
-            )
-
-    })
-
+    const octopus = (data) =>{
+        setdepot(data)
+        setStockinvestments(data.stockInvestments)
+    }
 
     //User sell some stocks
     const onSellHandler = (e) =>{
@@ -55,65 +52,53 @@ function Depot(props) {
                 <div className="depot">
             <div className={'container'} style={{marginTop:'3em'}}>
                 <div className={'depotBestand'} style={{paddingTop:'0.2em'}}>
-                    <table className="depotTable">
+                    <table className="table table-hover">
                         <thead>
-                        <th scope="col">Depotwert</th>
-                        <th scope="col">Kaufwert</th>
-                        <th scope="col">Depotentwicklung</th>
-                        <th scope="col">Summe Dividenden / Erträge</th>
+                        <th>Depotbalance</th>
+                        <th>Realisierter Profit</th>
                         </thead>
                         <tbody>
                         <tr>
-                            <td>{}X {}EUR</td>
-                            <td>{}X {}EUR</td>
-                            <td><span className={'green'}>+{}X {}EUR<br/><span className={'small'}>(inkl. Dividenden und Erträge)</span></span></td>
-                            <td>{}X {}EUR</td>
+                            <td>{Number(depot.depotBalance).toFixed(2)} {}EUR</td>
+                            <td><span className={'green'}>{depot.realizedProfitLossOfUserEntity} {}EUR<br/><span className={'small'}>(inkl. Dividenden und Erträge)</span></span></td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
                 <h3>Depotbestand</h3><br/>
-                <table className="table table-hover"
-                >
+                <table className="table table-hover">
                     <thead>
                     <tr>
-                        <th scope="col">Stk./Nom.<br/><span className={'small'}>(gesperrt)</span></th>
-                        <th scope="col" class="sortable-column"  data-sortable="true" >Name<br/><span className={'small'}>ISIN/WKN/Lagerstelle</span></th>
-                        <th scope="col" >Aktuelle Summe<br/><span className={'small'}> Gesamterfolg (abs. / rel.)</span></th>
-                        <th scope="col" >Aktueller Kurs<br/><span className={'small'}> Diff.Tag (abs. / rel.)</span></th>
-                        <th scope="col" >Zeit<br/><span className={'small'}>Kursquelle</span></th>
-                        <th scope="col" >Aktion</th>
+                      <th>Symbol</th>
+                        <th>Durchschnittwert</th>
+                        <th>Gewinn/Verlust</th>
+                        <th>Investitionswert</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>X</td>
-                        <td>X</td>
-                        <td>X</td>
-                        <td>X</td>
-                        <td>X</td>
+                    {Object.entries(stockinvestments).map((item, i)=>
+                        <tr key={i} id={i}>
+                        <td>{item[0]}</td>
+                        <td>{item[1]['averagePriceOfInvestment']}</td>
+                        <td>{item[1]['realizedProfitLossOfInvestment']}</td>
+                        <td>{Number(item[1]['valueOfInvestment']).toFixed(2)}</td>
                         <td>
                             <div>
-                                <button type="button" className={'btn btn-basic'} style={{backgroundColor:'darkgrey'}} title="Einsehen" onClick={onStockHandler}><i className="fas fa-search"></i></button>
+                                <button type="button" value={item} className={'btn btn-primary btn-sm'} style={{backgroundColor:'darkgrey', width:'100%'}} onClick={onStockHandler}> Details <i className="fas fa-search"></i></button>
                                 <StockOverview
+                                    data={item}// Hier muss nur eins übergeben werden
+                                    symbol={item[0]} // Hier muss das mit dem INdex noch angepasst werden
                                     show={showStock}
                                     handleClose={handleCloseStock}
                                 />
-                                <button type="button" className="btn btn-secondary"  style={{backgroundColor:'orange'}} title="Verkaufen" onClick={onSellHandler}><i className="fa fa-coins"></i></button>
-                                <StockOrderManager show={showSell}
-                                                   handleClose={handleCloseSell}
-                                                   stockName ={stockProfile2.name}
-                                                   stockSymbol = {symbols}
-                                />
-
                             </div>
                         </td>
-
-                    </tr>
+                    </tr>)}
                     </tbody>
                 </table>
 
-            </div>     </div>
+            </div>
+                </div>
             </div>
 
         </>

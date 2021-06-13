@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import './StockOrderManager.css';
 import {Modal} from "react-bootstrap";
 import {FaTimes} from "react-icons/fa";
@@ -12,6 +12,14 @@ function StockOrderManager(props) {
 
     const [amount, setAmount] = useState('');
     const {users, setUsers}= useContext(UserCloud);
+    const [orderStatus, setOrderStatus] = useState(true)
+    const [sellSymbol, setSellSymbol] = useState('M')
+
+    useEffect(()=>{
+        if(props.title == 'Verkaufen'){
+            setOrderStatus(!orderStatus)
+        }
+    },[props.title])
 
 
     const placeOrder= () =>{
@@ -21,15 +29,29 @@ function StockOrderManager(props) {
         console.log('Symbol',props.stockSymbol)
         console.log('Price', props.stockPrice)
 
-        let order = {
-            "date": new Date(),
-            "orderId": "stringa",
-            "price": props.stockPrice,
-            "stockSymbol": props.stockSymbol,
-            "type": props.type,
-            "units": amount,
-            "userId": users.id
+        let order;
+        if(orderStatus == true){
+            order = {
+                "date": new Date(),
+                "orderId": "stringagk",
+                "price": props.stockPrice,
+                "stockSymbol": props.stockSymbol,
+                "type": props.type,
+                "units": amount,
+                "userId": users.id
+            }
+        }else{
+            order = {
+                "date": new Date(),
+                "orderId": "stringavk",
+                "price": props.stockPrice,
+                "stockSymbol": sellSymbol,
+                "type": props.type,
+                "units": amount,
+                "userId": users.id
+            }
         }
+
 
         //Order Absenden WICHTIG PORT ANPASSEN
         axios.post('http://localhost:8081/orderService/orders/',order)
@@ -66,7 +88,12 @@ function StockOrderManager(props) {
                                 <label htmlFor={'Amount'}>Anzahl
                                 <input value={amount} name={'Amount'} className={"form-control"} onChange={event => setAmount(event.target.value)} style={{width:'40%', float:'right'}} type={'number'}/>
                                 </label>
-                                <div className={'receipt'} >
+                                <div className={'receipt'}  style= {{visibility: orderStatus ? 'hidden':'visible' }} >
+                                    <label  htmlFor={'symbol'}>Symbol
+                                        <input value={sellSymbol} name={'symbol'} className={'form-control'} style={{width:'40%', float:'right'}} type={'text'} placeholder={sellSymbol} size={18} onChange={event => {setSellSymbol(event.target.value)}}/>
+                                    </label>
+                                </div>
+                                <div className={'receipt'}  style= {{visibility: orderStatus ? 'visible':'hidden' }} >
                                     <label> Gesamtsumme : {amount* props.stockPrice} {props.currency}</label>
                                 </div>
                                 <div className="form-check">
@@ -101,5 +128,6 @@ export default StockOrderManager;
 StockOrderManager.defaultProps= {
     type : "OPEN",
     stockPrice:0
+
 }
 

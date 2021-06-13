@@ -5,6 +5,7 @@ import './Profil.css';
 import {FaTimes} from "react-icons/fa";
 import {UserCloud} from "../UserCloud";
 import axios from "axios";
+import Moment from "moment";
 
 
 function Profil() {
@@ -52,11 +53,9 @@ function Profil() {
                 </div>
                 </div>
                 </div>
-
-
                 <Modal show={purchasesShow} onHide={handlePurchasesClose} animation={false} size={'xl'}>
                     <Modal.Header>
-                        <Modal.Title>Meine Käufe</Modal.Title>
+                        <Modal.Title>Meine Aktionen</Modal.Title>
                         <FaTimes cursor={'pointer'} onClick={handlePurchasesClose}/>
                     </Modal.Header>
                     <Modal.Body>
@@ -74,14 +73,12 @@ function Profil() {
                                     <tr>
                                         <td>{index}</td>
                                         <td>{value.type}</td>
-                                        <td>{value.stock_symbol}</td>
+                                        <td>{value.stockSymbol}</td>
                                         <td>{value.units}</td>
                                         <td>{value.date}</td>
                                         <td>{value.price}</td>
                                     </tr>
-
                             ))}
-
                             </tbody>
                         </table>
                     </Modal.Body>

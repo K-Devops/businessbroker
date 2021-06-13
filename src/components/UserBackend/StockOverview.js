@@ -14,9 +14,8 @@ function StockOverview(props) {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const {symbols, setsymbols} = useContext(SymbolCloud);
-    const [stockProfile2, setStockProfile2] = useState('')
-
+    const thrdrequest = require('request');
+    const [currentcondition, setCurrentcondition]= useState([])
 
     //User bought some stocks
     const onBuyhandler = (e) =>{
@@ -27,6 +26,12 @@ function StockOverview(props) {
     const handleCloseSell = () => setShowSell(false);
     const handleShowSell = () => setShowSell(true);
 
+        useEffect(()=>{
+    thrdrequest('https://finnhub.io/api/v1/quote?symbol='+props.symbol+'&token='+ process.env.REACT_APP_API_KEY, { json: true }, (err, res, body) => {
+        if (err) { return console.log(err); }
+        setCurrentcondition(body)
+    });
+            },[props.symbol])
 
     //User sell some stocks
     const onSellHandler = (e) =>{
@@ -36,14 +41,13 @@ function StockOverview(props) {
         return (
             <Modal size={'xl'} show={props.show} onHide={props.handleClose}>
                 <Modal.Header>
-                    <Modal.Title>{stockProfile2.name}</Modal.Title>
+                    <Modal.Title>Meine Aktionen zu {props.symbol} </Modal.Title>
                     <FaTimes cursor={'pointer'} onClick={props.handleClose}/>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="container" ref={props.containerRef}>
                         <div className={'row'}>
                             <div className={'col-7'}>
-                                <p></p>
                                 <h5>Datum: {Moment().format("DD.MM.yyyy")}</h5><br/>
                                 <table className="table table-hover">
                                     <thead>
@@ -60,6 +64,8 @@ function StockOverview(props) {
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    {console.log(props.data, props.symbol)}
+                                    {Object.entries(props.data).map(item=><p>Hallo{item['status']}</p>)}
                                     <tr>
                                         <td>{}</td>
                                         <td>{}<br/><span className={'small'}>{}</span></td>
@@ -68,14 +74,14 @@ function StockOverview(props) {
                                         <td>{}</td>
                                         <td>
                                             <button type="button" className="btn btn-secondary"
-                                                     style={{backgroundColor:'orange', width:'150%'}}
+                                                     style={{backgroundColor:'orange', width:'125%'}}
                                                      onClick={onSellHandler}> Verkaufen &nbsp; <i className="fa fa-coins"></i>
                                         </button>
                                            <StockOrderManager
                                                show={showSell}
                                                handleClose={handleCloseSell}
-                                               stockName ={stockProfile2.name}
-                                               stockSymbol = {symbols}
+                                               stockSymbol = {props.symbol}
+                                               stockPrice={currentcondition.c}
                                                title = 'Verkaufen'
                                                type={'CLOSE'} // WIRD VERKAUFT
                                            />
@@ -85,16 +91,11 @@ function StockOverview(props) {
                                 </table>
                             </div>
                             <div className={'col-4'} style={{marginLeft: '5%'}}>
-                                <div>
-                                    <img src={stockProfile2.logo}/>
-                                </div>
-                                <h4> {stockProfile2.name} </h4>
-
+                                <h4> {props.symbol} </h4>
                                 <ul className="list-group">
-                                    <li className="list-group-item">Börse: {stockProfile2.exchange}</li>
-                                    <li className="list-group-item">Markt: {stockProfile2.country} Markt</li>
-                                    <li className="list-group-item">Marktplatzierung: {stockProfile2.marketCapitalization}</li>
-                                    <li className="list-group-item">Austehende Aktien {stockProfile2.shareOutstanding} </li>
+                                    <li className="list-group-item">Tageshoch: {currentcondition.h}</li>
+                                    <li className="list-group-item">Tagestief: {currentcondition.l} Markt</li>
+                                    <li className="list-group-item">Aktueller Preis: {currentcondition.c}</li>
                                 </ul>
                             </div>
                         </div>

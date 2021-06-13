@@ -15,19 +15,11 @@ export const Login = (props) => {
     const history = useHistory();
 
     const routeChange = () =>{
-        //Anlegen eines Users nach erfolgreicher registrierung (Jan)
-        axios.post('http://localhost:8080/investmentService/users/'+users.id)
-            .then(response => response.data)
-            .then(data => console.log(data)
-            )
-
         let path = "/Dashboard" + '?=user' + users.id ;
         history.push(path);
     }
 
     useEffect(()=>{
-        console.log(users.username, 'users')
-        console.log(name)
 
         if(users.username==name){
             routeChange()
@@ -35,7 +27,6 @@ export const Login = (props) => {
 
         setname('')
         setpassword('')
-
     },[users])
 
     const onsubmit = (e) =>{
