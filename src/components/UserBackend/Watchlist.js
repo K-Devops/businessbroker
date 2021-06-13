@@ -1,48 +1,44 @@
 import React, {useEffect, useState} from 'react';
+import StockOverview from "./StockOverview";
 
 function Watchlist(props) {
 
 
 const request = require('request');
-const [array, setArray] = useState([])
-    const a = []
-
+const [array, setArray]=useState({
+    objects:[]
+})
+    var ar=[];
 
 useEffect(()=>{
-
  props.watchlist.map((listitem, i) => {
      request('https://finnhub.io/api/v1/quote?symbol=' + listitem + '&token=' + process.env.REACT_APP_API_KEY, {json: true}, (err, res, body) => {
          if (err) {
              return console.log(err);
          }
          body[0] = listitem
-         a.push(body)
+         ar.push(body)
+         setArray({objects:ar})
      })})
-    console.log(a, 'aa')
-    setArray(a)
+
 },[props.watchlist])
 
     return (
                 <div className="col-4" style={{height:'650px', overflowY:'scroll', padding:'2%'}}>
                     <label htmlFor={"watchlist"}><b>Watchlist</b></label>
-                    {a.map((item, index)=><p>H</p>)}
-                    <div className="list-group watch">
-                        {props.watchlist.map((value,i)=>
-                            <a key={i} id={i}
-                               className="list-group-item list-group-item-action flex-column align-items-start ">
-                                <div className="d-flex w-100 justify-content-between">
-                                    <p className="mb-1"><b>{value} </b></p>
-                                    <small>{i} </small>
-                                </div><small>  <ul>
-                                <p>Werte  </p>
-                            </ul>
-                            </small>
-                                <small>
-                                    <button className={"btn btn-sm btn-light"} onClick={event => props.onClickhandler(value[0])}> entfernen</button>
-                                </small>
 
-                            </a>
-                        )}
+                    <div className="list-group watch">
+                        {array.objects.map(((value, index) =>
+                            <ul className="list-group list-group-flush">
+                                <li className="list-group-item"> <small>
+                             <b>{value[0]}</b> | Aktueller Preis {value.c} $ | Tageshoch {value.h} $ | Tagestief: {value.l} $
+                                        <button className={"btn btn-sm btn-light"} onClick={event => props.onClickhandler(value[0])}> entfernen</button>
+                                    </small>
+                                </li>
+                            </ul>
+
+
+                            ))}
                     </div>
                 </div>
         
@@ -50,3 +46,8 @@ useEffect(()=>{
 }
 
 export default Watchlist;
+
+StockOverview.defaultProps= {
+    a:'null'
+
+}
