@@ -11,19 +11,14 @@ function Depot(props) {
     const [showSell, setShowSell] = useState(false);
     const handleCloseStock = () => setShowStock(false);
     const handleShowStock = () => setShowStock(true);
-    const handleCloseSell = () => setShowSell(false);
-    const handleShowSell = () => setShowSell(true);
 
-    // Ich denke diese Variable wirst du nich brauchen
     const {users, setUsers}= useContext(UserCloud);
     const {symbols, setsymbols} = useContext(SymbolCloud);
     const [depot, setdepot] = useState([]);
     const [stockinvestments, setStockinvestments]= useState([])
     const [detailinvestment, setdetailinvestment] = useState([])
 
-   // Hiermit holst du dir von Jan beim Laden des Backends die Daten des Users
     useEffect(()=>{
-        //Get complete user by userId
         axios.get('http://localhost:8080/investmentService/users/'+users.id)
             .then(response => response.data)
             .then(data => octopus(data))
@@ -34,12 +29,6 @@ function Depot(props) {
         setStockinvestments(data.stockInvestments)
     }
 
-    //User sell some stocks
-    const onSellHandler = (e) =>{
-        handleShowSell();
-    }
-
-    //User see some stocks
     const onStockHandler = (data) =>{
         handleShowStock();
         setdetailinvestment(data[1]['sharesInPossession'])

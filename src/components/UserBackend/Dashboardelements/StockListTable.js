@@ -3,7 +3,6 @@ import StockOrderManager from "./StockOrderManager";
 import {SymbolCloud} from "../../SymbolCloud";
 
 function StockListTable(props) {
-
     return (
 <>
     <div className={'col-4'} style={{marginLeft:'5%'}}>
@@ -23,7 +22,6 @@ function StockListTable(props) {
         </div>
         <div>
             <button className={'btn btn-secondary'} style={{margin:'10%'}} onClick={props.onBuyhanlder}>Wertpapier ordern</button>
-
         </div>
     </div>
 </>

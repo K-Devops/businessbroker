@@ -12,26 +12,35 @@ import StockOrderManager from "./StockOrderManager";
 import {UserCloud} from "../../UserCloud";
 import StockTable from "./StockTable";
 import NewsBlock from "./NewsBlock";
+import StockListTable from "./StockListTable";
 
 
 function StockDashboard(props) {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const {symbols, setsymbols} = useContext(SymbolCloud);
     const [stockProfile2, setStockProfile2] = useState('')
     const {watchlist, setWatchlist} = props.Winteract;
     const [CompanyNews, setCompanyNews] = useState([])
     const [StockData, setStockData] = useState([])
-    const [times, settimes] = useState([null])
+
+    //Elements to request API
     const request = require('request');
     const scdrequest = require('request');
     const thrdrequest = require('request');
     const fourrequest = require('request');
+
+    //Clouds
+    const {symbols, setsymbols} = useContext(SymbolCloud);
+    const {users, setUsers}= useContext(UserCloud);
+
+    //Timeelements
+    var date = new Date();
+    var unixTimeStamp = Math.floor(date.getTime() / 1000);
+    var year = Moment(date).subtract(11, 'months');
     var a = ['',];
     var Today = Moment().format('YYYY-MM-DD')
     var Yesterday = Moment(new Date()).subtract(7, "days").format('YYYY-MM-DD')
-    const {users, setUsers}= useContext(UserCloud);
 
     //Options for Highchartsstockdiagramm (default)
     const [options,setoptions] = useState( {
@@ -91,7 +100,6 @@ function StockDashboard(props) {
 
     useEffect(()=>{
 
-
         request('https://finnhub.io/api/v1/stock/profile2?symbol='+symbols+'&token=' + process.env.REACT_APP_API_KEY, { json: true }, (err, res, body) => {
             if (err) { return console.log(err); }
             setStockProfile2(body)
@@ -109,18 +117,12 @@ function StockDashboard(props) {
 
         });
 
-        var date = new Date();
-        var unixTimeStamp = Math.floor(date.getTime() / 1000);
-        var year = Moment(date).subtract(11, 'months');
-
-            fourrequest('https://finnhub.io/api/v1/stock/candle?symbol='+symbols+'&resolution=1&from=1615298999&to='+unixTimeStamp+'&token='+ process.env.REACT_APP_API_KEY, { json: true }, (err, res, body) => {
+        fourrequest('https://finnhub.io/api/v1/stock/candle?symbol='+symbols+'&resolution=1&from=1615298999&to='+unixTimeStamp+'&token='+ process.env.REACT_APP_API_KEY, { json: true }, (err, res, body) => {
             if (err) { return console.log(err); }
-            settimes(body.t)
                 if(body.s == 'ok'){
                     unixtoDateConverter(body)
                 }
             if(a!=0){
-                console.log(a)
                 setoptions({series:[
                         {name:'Tief',data:body.l,tooltip: {
                                 valueDecimals: 1,
@@ -167,45 +169,19 @@ function StockDashboard(props) {
                                 options={options}
                                 constructorType={'stockChart'}
                                 allowChartUpdate = { true}
-
                             />
-                            <p></p>
                             <StockTable StockData={StockData} stockProfile2={stockProfile2}/>
                         </div>
-                        <div className={'col-4'} style={{marginLeft:'5%'}}>
-                            <div>
-                                <img src={stockProfile2.logo}  />
-                            </div>
-                            <h4> {stockProfile2.name} </h4>
-
-                            <ul className="list-group">
-                                <li className="list-group-item">Börse: {stockProfile2.exchange}</li>
-                                <li className="list-group-item">Markt: {stockProfile2.country} Markt</li>
-                                <li className="list-group-item">Marktplatzierung: {stockProfile2.marketCapitalization}</li>
-                                <li className="list-group-item">Austehende Aktien {stockProfile2.shareOutstanding} </li>
-                            </ul>
-                            <div className={'watchlistref'} >
-                                <button onClick={event => onClickhandler(stockProfile2.ticker)} className={'btn btn-outline-secondary'} >Zur Watchlist hinzufügen</button>
-                            </div>
-                            <div>
-                                <button className={'btn btn-secondary'} style={{margin:'10%'}} onClick={onBuyhanlder}>Wertpapier ordern</button>
-                                <StockOrderManager
-                                    show={show}
-                                    handleClose={handleClose}
-                                    stockName ={stockProfile2.name}
-                                    stockSymbol = {symbols}
-                                    title={'Wertpapierkauf'}
-                                    currency={stockProfile2.currency}
-                                    stockPrice = {StockData.c}
-                                />
-                            </div>
-                        </div>
+                        <StockListTable stockProfile2={stockProfile2} onClickhandler={onClickhandler} onBuyhanlder={onBuyhanlder} />
+                       <StockOrderManager
+                        show={show} handleClose={handleClose} stockName ={stockProfile2.name} stockSymbol = {symbols}
+                        title={'Wertpapierkauf'} currency={stockProfile2.currency} stockPrice = {StockData.c}
+                    />
                     </div>
                     <NewsBlock stockProfile2={stockProfile2} CompanyNews={CompanyNews}/>
                 </div>
             </Modal.Body>
             <Modal.Footer>
-
                 <Button buttonStyle="btn btn-outline-secondary"
                         buttonSize="btn-sm"
                         onClick={props.handleClose }
@@ -218,7 +194,4 @@ function StockDashboard(props) {
 
     );
 }
-
-
-
 export default StockDashboard;

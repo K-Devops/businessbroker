@@ -26,7 +26,6 @@ useEffect(()=>{
     return (
                 <div className="col-4" style={{height:'650px', overflowY:'scroll', padding:'2%'}}>
                     <label htmlFor={"watchlist"}><b>Watchlist</b></label>
-
                     <div className="list-group watch">
                         {array.objects.map(((value, index) =>
                             <ul className="list-group list-group-flush">
@@ -41,13 +40,7 @@ useEffect(()=>{
                             ))}
                     </div>
                 </div>
-        
     );
 }
 
 export default Watchlist;
-
-StockOverview.defaultProps= {
-    a:'null'
-
-}

@@ -6,7 +6,7 @@ import {Button} from "../../Button";
 import Moment from "moment";
 import {UserCloud} from "../../UserCloud";
 import axios from "axios";
-import CardItem from "../../CardItem";
+import { PayPalButton } from "react-paypal-button-v2";
 
 function StockOrderManager(props) {
 
@@ -14,7 +14,7 @@ function StockOrderManager(props) {
     const {users, setUsers}= useContext(UserCloud);
     const [orderStatus, setOrderStatus] = useState(true)
     const [sellSymbol, setSellSymbol] = useState('')
-
+    const [viewbutton, setView] = useState(false)
     useEffect(()=>{
         if(props.title == 'Verkaufen'){
             setOrderStatus(!orderStatus)
@@ -51,6 +51,7 @@ function StockOrderManager(props) {
                 "userId": users.id
             }
         }
+
 
 
         //Order Absenden WICHTIG PORT ANPASSEN
@@ -97,6 +98,23 @@ function StockOrderManager(props) {
                                     <label> Gesamtsumme : {amount* props.stockPrice} {props.currency}</label>
                                 </div>
                                 <div className="form-check">
+                                    <div style= {{display: orderStatus ? 'block':'none' }}>
+                                    <PayPalButton
+                                                  amount={amount* props.stockPrice}
+                                        // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
+                                        onSuccess={(details, data) => {
+                                            alert("Transaction completed by " + details.payer.name.given_name);
+                                            setView(true)
+                                            // OPTIONAL: Call your server to save the transaction
+                                            return fetch("/paypal-transaction-complete", {
+                                                method: "post",
+                                                body: JSON.stringify({
+                                                    orderID: data.orderID
+                                                })
+                                            });
+                                        }}
+                                    />
+                                        </div>
                                     <input type="checkbox" className="form-check-input" />
                                     <label className="form-check-label" htmlFor="exampleCheck1"><small>Hiermit akzeptiere ich die AGB des Online Brokers*</small>   </label>
                                 </div>
