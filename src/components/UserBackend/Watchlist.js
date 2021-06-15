@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import StockOverview from "./StockOverview";
+import StockOverview from "./Dashboardelements/StockOverview";
 
 function Watchlist(props) {
 

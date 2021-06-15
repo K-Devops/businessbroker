@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 function NewsBlock(props) {
 
     return (
-<>
+        <div style= {{display: props.detail ? 'block':'none' }}>
     <div style={{marginTop:'5%'}}>
         <div>
             <h5>Aktuelle News zu {props.stockProfile2.name} </h5>
@@ -23,8 +23,9 @@ function NewsBlock(props) {
             )}
         </div>
     </div>
+        </div>
 
-</>    );
+  );
 }
 
 export default NewsBlock;

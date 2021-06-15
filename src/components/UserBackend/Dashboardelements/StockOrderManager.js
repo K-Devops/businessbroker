@@ -14,7 +14,7 @@ function StockOrderManager(props) {
     const {users, setUsers}= useContext(UserCloud);
     const [orderStatus, setOrderStatus] = useState(true)
     const [sellSymbol, setSellSymbol] = useState('')
-    const [viewbutton, setView] = useState(false)
+    let order;
 
     useEffect(()=>{
         if(props.title == 'Verkaufen'){
@@ -23,18 +23,18 @@ function StockOrderManager(props) {
     },[props.title])
 
 
-    const placeOrder= () =>{
+    const placeOrder= (id) =>{
 
         console.log('Anzahl',amount)
         console.log('UserID',users.id)
         console.log('Symbol',props.stockSymbol)
         console.log('Price', props.stockPrice)
 
-        let order;
+
         if(orderStatus == true){
             order = {
                 "date": new Date(),
-                "orderId": "stringagk",
+                "orderId": 'id',// Hier dann die OrderID ersetzen
                 "price": props.stockPrice,
                 "stockSymbol": props.stockSymbol,
                 "type": props.type,
@@ -44,28 +44,23 @@ function StockOrderManager(props) {
         }else{
             order = {
                 "date": new Date(),
-                "orderId": "stringavk",
+                "orderId": "stringavk", // muss noch jan gemacht werden
                 "price": props.stockPrice,
-                "stockSymbol": sellSymbol,
+                "stockSymbol": props.stockSymbol,
                 "type": props.type,
                 "units": amount,
                 "userId": users.id
             }
-        }
 
-        //Order Absenden WICHTIG PORT ANPASSEN
+        }
+        //Sobald Paypal funktioniert wird das entfernt
+        console.log(order)
+        console.log('Gebucht')
         axios.post('http://localhost:8081/orderService/orders/',order)
             .then(response => response.data)
             .then(data => console.log(data)
             )
 
-        /*
-        //Create Empty Investment -- ehrlich gesagt verstehe ich den Unterschied hier nicht
-        axios.post('http://localhost:8080/investmentService/users/'+users.id)
-            .then(response => response.data)
-            .then(data => console.log(data)
-            )
-            */
         {props.handleClose() }
     }
 
@@ -101,19 +96,19 @@ function StockOrderManager(props) {
                                         // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
                                         onSuccess={(details, data) => {
                                             alert("Transaction completed by " + details.payer.name.given_name);
-                                            setView(true)
+                                            placeOrder(data.orderID)
                                             // OPTIONAL: Call your server to save the transaction
-                                            return fetch("/paypal-transaction-complete", {
-                                                method: "post",
-                                                body: JSON.stringify({
-                                                    orderID: data.orderID
-                                                })
-                                            });
+                                            axios.post('http://localhost:8081/orderService/orders/',order)
+                                                .then(response => response.data)
+                                                .then(data => console.log(data)
+                                                )
                                         }}
                                     />
                                         </div>
-                                    <input type="checkbox" className="form-check-input" />
-                                    <label className="form-check-label" htmlFor="exampleCheck1"><small>Hiermit akzeptiere ich die AGB des Online Brokers*</small>   </label>
+                                    <input type="checkbox" className="form-check-input" required={true}/>
+                                    <label className="form-check-label" htmlFor="exampleCheck1">
+                                        <small>Hiermit akzeptiere ich die AGB des Online Brokers*</small>
+                                    </label>
                                 </div>
                             </form>
                         </div>
@@ -121,12 +116,15 @@ function StockOrderManager(props) {
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <Button buttonStyle="btn btn-outline-secondary"
+                <div style= {{display: orderStatus ? '':'block' }}>
+                <Button
+                        buttonStyle="btn btn-outline-secondary"
                         buttonSize="btn-sm"
                         link={'/Dashboard'}
                         onClick={placeOrder}>
                     Order ausführen
                 </Button>
+                </div>
                 <Button buttonStyle="btn btn-outline-secondary"
                         buttonSize="btn-sm"
                         link={'/Dashboard'}
@@ -142,7 +140,8 @@ export default StockOrderManager;
 
 StockOrderManager.defaultProps= {
     type : "OPEN",
-    stockPrice:0
+    stockPrice:0,
+    id: 2
 
 }
 

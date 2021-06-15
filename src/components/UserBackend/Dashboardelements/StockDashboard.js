@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useMemo, useState} from 'react';
 import {Modal, Tooltip} from "react-bootstrap";
 import {FaTimes} from "react-icons/fa";
 import {Button} from "../../Button";
@@ -13,6 +13,7 @@ import {UserCloud} from "../../UserCloud";
 import StockTable from "./StockTable";
 import NewsBlock from "./NewsBlock";
 import StockListTable from "./StockListTable";
+import StockOverview from "./StockOverview";
 
 
 function StockDashboard(props) {
@@ -23,6 +24,8 @@ function StockDashboard(props) {
     const {watchlist, setWatchlist} = props.Winteract;
     const [CompanyNews, setCompanyNews] = useState([])
     const [StockData, setStockData] = useState([])
+
+
 
     //Elements to request API
     const request = require('request');
@@ -172,13 +175,32 @@ function StockDashboard(props) {
                             />
                             <StockTable StockData={StockData} stockProfile2={stockProfile2}/>
                         </div>
-                        <StockListTable stockProfile2={stockProfile2} onClickhandler={onClickhandler} onBuyhanlder={onBuyhanlder} />
+                        <StockListTable stockProfile2={stockProfile2}
+                                        onClickhandler={onClickhandler}
+                                        onBuyhanlder={onBuyhanlder}
+                                        detail={props.detail}
+                                        stockPrice = {StockData.c}
+
+                        />
                        <StockOrderManager
-                        show={show} handleClose={handleClose} stockName ={stockProfile2.name} stockSymbol = {symbols}
-                        title={'Wertpapierkauf'} currency={stockProfile2.currency} stockPrice = {StockData.c}
+                        show={show} handleClose={handleClose}
+                        stockName ={stockProfile2.name}
+                        stockSymbol = {symbols}
+                        title={'Wertpapierkauf'}
+                        currency={stockProfile2.currency}
+                        stockPrice = {StockData.c}
                     />
                     </div>
-                    <NewsBlock stockProfile2={stockProfile2} CompanyNews={CompanyNews}/>
+
+                    <NewsBlock  detail={props.detail}
+                                stockProfile2={stockProfile2}
+                                CompanyNews={CompanyNews}/>
+                    <StockOverview  detail={props.detail}
+                                    datap={props.datap}
+                                    stockPrice = {StockData.c}
+                                    currency={stockProfile2.currency}
+                        />
+
                 </div>
             </Modal.Body>
             <Modal.Footer>

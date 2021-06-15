@@ -4,7 +4,7 @@ import Moment from "moment";
 function StockTable(props) {
     return (
         <>
-        <h5>{Moment().format( "MMMM do, yyyy ")}</h5>
+            <h5>Datum: {Moment().format("DD.MM.yyyy")}</h5><br/>
         <table className="table table-hover">
             <thead>
             <tr>

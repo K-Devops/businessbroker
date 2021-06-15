@@ -57,6 +57,7 @@ function Searchline({Winteract}) {
             )}
             </datalist>
             <StockDashboard
+                detail={true}
                 data = {symbols}
                 show={show}
                 handleClose={handleClose}

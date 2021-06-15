@@ -41,6 +41,8 @@ export const Register = (props) => {
             "roles":["Role_User"]
         }
 
+
+
         //Anlegen eines Users nach erfolgreicher registrierung (Luisa)
         axios.post('http://localhost:8083/api/auth/signup', struktur)
             .then(response => response.data)
@@ -75,7 +77,7 @@ export const Register = (props) => {
 
                             <div className="form-group">
                                 <label htmlFor="username">Username</label>
-                                <input type="text" name="username" placeholder="Nutzername"
+                                <input type="text" name="username" placeholder="Nutzername" minLength={3}
                                 value={name} onChange={(e)=> setname(e.target.value)}/>
                             </div>
                             <div className="form-group">
@@ -87,7 +89,7 @@ export const Register = (props) => {
                                 <label htmlFor="password">Passwort*</label>
                                 <input  style={{marginBottom: "7px"}}type="password" name="password" placeholder="Passwort eingeben"
                                        value={password} onChange={(e)=> setpassword(e.target.value)}/>
-                                <input type="password" name="passwordtwo" placeholder="Passwort bestätigen"
+                                <input type="password" name="passwordtwo" placeholder="Passwort bestätigen" minLength={6}
                                        value={passwordtwo} onChange={(e)=> setpasswordtwo(e.target.value)}/>
                             </div>
                            <div className="form-check">

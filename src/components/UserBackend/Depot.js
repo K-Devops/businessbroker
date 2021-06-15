@@ -2,8 +2,9 @@ import React, {useContext, useEffect, useState} from 'react';
 import axios from "axios";
 import {UserCloud} from "../UserCloud";
 import {SymbolCloud} from "../SymbolCloud";
-import StockOverview from "./StockOverview";
+import StockOverview from "./Dashboardelements/StockOverview";
 import StockOrderManager from "./Dashboardelements/StockOrderManager";
+import StockDashboard from "./Dashboardelements/StockDashboard";
 
 function Depot(props) {
 
@@ -77,12 +78,21 @@ function Depot(props) {
                             </div>
                         </td>
                     </tr>)}
+                    <StockDashboard
+                        detail={false}
+                        symbol={symbols}
+                        show={showStock}
+                        handleClose={handleCloseStock}
+                        Winteract={''}
+                        datap={detailinvestment}
+                    />
+                    {/*
                     <StockOverview
                         data={detailinvestment}
                         symbol={symbols}
                         show={showStock}
                         handleClose={handleCloseStock}
-                    />
+                    />*/}
                     </tbody>
                 </table>
 

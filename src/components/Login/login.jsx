@@ -25,6 +25,11 @@ export const Login = (props) => {
             routeChange()
         }
 
+        //Erstelle InvestmentfürUser
+        axios.post('http://localhost:8080/investmentService/users/'+users.id)
+            .then(response => response.data)
+            .then(data=> console.log(data))
+
         setname('')
         setpassword('')
     },[users])
@@ -41,6 +46,7 @@ export const Login = (props) => {
             .then(response => response.data)
             .then(data => setUsers(data))
             .then(data=> console.log(data))
+
 
     }
 
