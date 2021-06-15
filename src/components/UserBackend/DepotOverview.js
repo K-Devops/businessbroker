@@ -22,15 +22,11 @@ function DepotOverview({Winteract}) {
     }, [])
 
     const onClickhandler = (key) =>{
-        const temp =[...watchlist];
-        temp.splice(key, 1);
-        setWatchlist(temp);
-
+        setWatchlist(watchlist.filter(item => item != key));
         axios.delete('http://localhost:8080/investmentService/users/'+users.id+'/watchlist/'+key)
             .then(response => response.data)
             .then(data => console.log(data)
             )
-
     }
 
     return (

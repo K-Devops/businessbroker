@@ -21,21 +21,20 @@ useEffect(()=>{
          setArray({objects:ar})
      })})
 
-},[props.watchlist])
+},[props.watchlist.length])
 
     return (
                 <div className="col-4" style={{height:'650px', overflowY:'scroll', padding:'2%'}}>
                     <label htmlFor={"watchlist"}><b>Watchlist</b></label>
                     <div className="list-group watch">
                         {array.objects.map(((value, index) =>
-                            <ul className="list-group list-group-flush">
+                            <ul key={index} className="list-group list-group-flush">
                                 <li className="list-group-item"> <small>
                              <b>{value[0]}</b> | Aktueller Preis {value.c} $ | Tageshoch {value.h} $ | Tagestief: {value.l} $
                                         <button className={"btn btn-sm btn-light"} onClick={event => props.onClickhandler(value[0])}> entfernen</button>
                                     </small>
                                 </li>
                             </ul>
-
 
                             ))}
                     </div>

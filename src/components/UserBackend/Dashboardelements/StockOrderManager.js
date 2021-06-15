@@ -15,6 +15,7 @@ function StockOrderManager(props) {
     const [orderStatus, setOrderStatus] = useState(true)
     const [sellSymbol, setSellSymbol] = useState('')
     const [viewbutton, setView] = useState(false)
+
     useEffect(()=>{
         if(props.title == 'Verkaufen'){
             setOrderStatus(!orderStatus)
@@ -52,14 +53,11 @@ function StockOrderManager(props) {
             }
         }
 
-
-
         //Order Absenden WICHTIG PORT ANPASSEN
         axios.post('http://localhost:8081/orderService/orders/',order)
             .then(response => response.data)
             .then(data => console.log(data)
             )
-
 
         /*
         //Create Empty Investment -- ehrlich gesagt verstehe ich den Unterschied hier nicht
@@ -70,7 +68,6 @@ function StockOrderManager(props) {
             */
         {props.handleClose() }
     }
-
 
     return (
         <Modal className={'modal fade'} dialogClassName={"modal-dialog modal-dialog-centered" } size={'medium'} tabIndex={"-1"} show={props.show} onHide={props.handleClose}>
