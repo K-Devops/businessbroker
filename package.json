@@ -11,6 +11,7 @@
     "bootstrap": "^4.6.0",
     "cors": "^2.8.5",
     "date-fns": "^2.22.1",
+    "dateformat": "^4.5.1",
     "finnhub": "^1.2.1",
     "highcharts": "^8.2.2",
     "highcharts-react-official": "^3.0.0",

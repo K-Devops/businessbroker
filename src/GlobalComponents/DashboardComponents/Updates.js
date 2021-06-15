@@ -3,8 +3,6 @@ import './Updates.css';
 import CardItem from "../CardItem";
 
 
-
-
 function Updates(props) {
     return (
 <div>

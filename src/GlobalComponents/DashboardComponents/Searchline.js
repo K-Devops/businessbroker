@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useMemo, useState} from 'react';
 import './Searchline.css';
 import {SymbolCloud} from "../SymbolCloud";
-import StockDashboard from "./Dashboardelements/StockDashboard";
+import StockDashboard from "./DashboardElements/StockDashboard";
 
 
 function Searchline({Winteract}) {
@@ -27,7 +27,7 @@ function Searchline({Winteract}) {
     const onChangehandler= (input)=>{
         setInput(input)
         if(input.length>0){
-            request('https://finnhub.io/api/v1/search?q='+input+'&token='+process.env.REACT_APP_WEATHER_API_KEY, { json: true }, (err, res, body) => {
+            request('https://finnhub.io/api/v1/search?q='+input+'&token='+process.env.REACT_APP_API_KEY, { json: true }, (err, res, body) => {
                 if (err) { return console.log(err); }
                 console.log(body)
                 setStocks(body.result);
@@ -43,18 +43,18 @@ function Searchline({Winteract}) {
     return (
         <div className={'container'}  >
             <form className="border border-1">
-            <label className={"form-label"} htmlFor={'addsymbol'}> Suchen Sie jetzt nach Ihrer nächsten Anlage</label>
-            <input type="text" list={'mydata'} className={'form-control'} name="addsymbol" placeholder="z.B. Apple/ISIN"
-                   value={input} onChange={(e)=> onChangehandler(e.target.value)}/>
+                <label className={"form-label"} htmlFor={'addsymbol'}> Suchen Sie jetzt nach Ihrer nächsten Anlage</label>
+                <input type="text" list={'mydata'} className={'form-control'} name="addsymbol" placeholder="z.B. Apple/ISIN"
+                       value={input} onChange={(e)=> onChangehandler(e.target.value)}/>
                 <div>
                     <button  className={'btn btn-secondary'} onClick={event => onClickhandler(event)} style={{marginTop:'2%'}}>Anzeigen</button>
                 </div>
             </form>
             <datalist id={'mydata'} >
 
-            {stocks && stocks.map((stock, i)=>
-            <option key={i} value={stock.symbol}>{stock.description} {stock.displaySymbol}</option>
-            )}
+                {stocks && stocks.map((stock, i)=>
+                    <option key={i} value={stock.symbol}>{stock.description} {stock.displaySymbol}</option>
+                )}
             </datalist>
             <StockDashboard
                 detail={true}

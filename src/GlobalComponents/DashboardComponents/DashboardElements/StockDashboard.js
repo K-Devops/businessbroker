@@ -1,5 +1,5 @@
-import React, {useContext, useEffect, useMemo, useState} from 'react';
-import {Modal, Tooltip} from "react-bootstrap";
+import React, {useContext, useEffect, useState} from 'react';
+import {Modal} from "react-bootstrap";
 import {FaTimes} from "react-icons/fa";
 import {Button} from "../../Button";
 import {SymbolCloud} from "../../SymbolCloud";
@@ -27,25 +27,25 @@ function StockDashboard(props) {
 
 
 
-    //Elements to request API
+    //Elemente für Request API
     const request = require('request');
     const scdrequest = require('request');
     const thrdrequest = require('request');
     const fourrequest = require('request');
 
     //Clouds
-    const {symbols, setsymbols} = useContext(SymbolCloud);
-    const {users, setUsers}= useContext(UserCloud);
+    const {symbols} = useContext(SymbolCloud);
+    const {users}= useContext(UserCloud);
 
-    //Timeelements
+    //Zeitelemente
     var date = new Date();
     var unixTimeStamp = Math.floor(date.getTime() / 1000);
     var year = Moment(date).subtract(11, 'months');
     var a = ['',];
-    var Today = Moment().format('YYYY-MM-DD')
-    var Yesterday = Moment(new Date()).subtract(7, "days").format('YYYY-MM-DD')
+    var Today = Moment().format('DD.MM.YYYY')
+    var Yesterday = Moment(new Date()).subtract(7, "days").format('DD.MM.YYYY')
 
-    //Options for Highchartsstockdiagramm (default)
+    //Optionen für Highchartsstockdiagramm
     const [options,setoptions] = useState( {
         title: {
             text: 'My chart'
@@ -62,6 +62,15 @@ function StockDashboard(props) {
             categories: [''],
 
         },
+        lang: {
+            months: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+            weekdays: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
+            shortMonths: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
+            rangeSelectorFrom: "Von",
+            rangeSelectorTo: "Bis",
+            rangeSelectorZoom: "Zeitraum",
+        },
+
         series: [{
             name:'',
             data: [1, 2, 3],
@@ -80,20 +89,23 @@ function StockDashboard(props) {
         }]
     })
 
-    //User bought some stocks
-    const onBuyhanlder = (e) =>{
+    //User kauft Wertpapiere
+    const onBuyhandler = (e) =>{
         handleShow();
     }
 
-    // Add item to Watchlist
+    // Item in die Watchlist hinzufügen
     const onClickhandler=(symbol)=>{
         if(watchlist.includes(symbol)){
             alert('Wurde bereits hinzugefügt')
             return
         }
+        else {
+            alert('Wertpapier wurde auf die Watchlist gesetzt!')
+        }
         setWatchlist([...watchlist, symbol])
 
-        //Add item to watchlist
+        //Item in die Watchlist hinzufügen
         axios.post('http://localhost:8080/investmentService/users/'+users.id+'/watchlist/'+symbol)
             .then(response => response.data)
             .then(data => console.log( data)
@@ -122,9 +134,9 @@ function StockDashboard(props) {
 
         fourrequest('https://finnhub.io/api/v1/stock/candle?symbol='+symbols+'&resolution=1&from=1615298999&to='+unixTimeStamp+'&token='+ process.env.REACT_APP_API_KEY, { json: true }, (err, res, body) => {
             if (err) { return console.log(err); }
-                if(body.s == 'ok'){
-                    unixtoDateConverter(body)
-                }
+            if(body.s == 'ok'){
+                unixtoDateConverter(body)
+            }
             if(a!=0){
                 setoptions({series:[
                         {name:'Tief',data:body.l,tooltip: {
@@ -139,10 +151,10 @@ function StockDashboard(props) {
                 } )
             }
         });
-        }, [symbols])
+    }, [symbols])
 
     const unixtoDateConverter = (m) =>{
-       a =  m.t.map(function(time){return new Date(time*1000).toLocaleDateString('de')})
+        a =  m.t.map(function(time){return new Date(time*1000).toLocaleDateString('de')})
 
     }
 
@@ -171,44 +183,36 @@ function StockDashboard(props) {
                                 highcharts={Highcharts}
                                 options={options}
                                 constructorType={'stockChart'}
-                                allowChartUpdate = { true}
-                            />
+                                allowChartUpdate = { true}/>
                             <StockTable StockData={StockData} stockProfile2={stockProfile2}/>
                         </div>
                         <StockListTable stockProfile2={stockProfile2}
                                         onClickhandler={onClickhandler}
-                                        onBuyhanlder={onBuyhanlder}
+                                        onBuyhandler={onBuyhandler}
                                         detail={props.detail}
-                                        stockPrice = {StockData.c}
-
-                        />
-                       <StockOrderManager
-                        show={show} handleClose={handleClose}
-                        stockName ={stockProfile2.name}
-                        stockSymbol = {symbols}
-                        title={'Wertpapierkauf'}
-                        currency={stockProfile2.currency}
-                        stockPrice = {StockData.c}
-                    />
-                    </div>
-
+                                        stockPrice = {StockData.c}/>
+                        <StockOrderManager
+                            show={show} handleClose={handleClose}
+                            stockName ={stockProfile2.name}
+                            stockSymbol = {symbols}
+                            title={'Wertpapierkauf'}
+                            currency={stockProfile2.currency}
+                            stockPrice = {StockData.c}/>
+                        </div>
                     <NewsBlock  detail={props.detail}
                                 stockProfile2={stockProfile2}
                                 CompanyNews={CompanyNews}/>
                     <StockOverview  detail={props.detail}
                                     datap={props.datap}
                                     stockPrice = {StockData.c}
-                                    currency={stockProfile2.currency}
-                        />
-
+                                    currency={stockProfile2.currency}/>
                 </div>
             </Modal.Body>
             <Modal.Footer>
                 <Button buttonStyle="btn btn-outline-secondary"
                         buttonSize="btn-sm"
                         onClick={props.handleClose }
-                        link={'/Dashboard'}
-                >
+                        link={'/Dashboard'}>
                     schließen
                 </Button>
             </Modal.Footer>

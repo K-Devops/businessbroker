@@ -3,8 +3,6 @@ import {Button} from './Button';
 import {Link, useHistory} from 'react-router-dom';
 import './Navbar.css';
 import {Login} from "./Login/login";
-import Ticker from "./Ticker";
-import {TickerCloud} from "./TickerCloud";
 import {UserCloud} from "./UserCloud";
 
 
@@ -17,7 +15,6 @@ function Navbar() {
     const handleClick = () => setClick(!click);
     const closeMobileMenu = () => setClick(false);
     const [login, setlogin] = useState(false);
-    const {Tickers, setTickers} = useContext(TickerCloud)
     const {users, setUsers}= useContext(UserCloud);
     const history = useHistory();
 
@@ -111,7 +108,6 @@ function Navbar() {
                     <Login show={show} setLogin={setlogin} handleClose={handleClose}/>
                 </div>
             </nav>
-            <Ticker Ticks={Tickers}/>
         </>
     );
 }

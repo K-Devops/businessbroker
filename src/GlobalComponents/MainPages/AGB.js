@@ -1,7 +1,7 @@
 import React from 'react';
 import Footer from "../Footer";
 
-function Agb() {
+function AGB() {
     return (
         <>
             <div className={'container'} style={{marginTop:'5em'}}>
@@ -111,4 +111,4 @@ function Agb() {
         </>
     );
 }
-export default Agb;
+export default AGB;

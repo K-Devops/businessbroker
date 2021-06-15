@@ -2,7 +2,6 @@ import React, {useContext, useEffect, useState} from 'react';
 import './DepotOverview.css';
 import axios from "axios";
 import {UserCloud} from "../UserCloud";
-import {SymbolCloud} from "../SymbolCloud";
 import Watchlist from "./Watchlist";
 import Depot from "./Depot";
 
@@ -15,7 +14,7 @@ function DepotOverview({Winteract}) {
 
 
     useEffect(()=>{
-        //Get complete watchlist
+        // Gesamte Watchlist erhalten
         axios.get('http://localhost:8080/investmentService/users/'+users.id+'/watchlist')
             .then(response => response.data)
             .then(data => setWatchlist(data))

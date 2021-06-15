@@ -5,22 +5,17 @@ import './Profil.css';
 import {FaTimes} from "react-icons/fa";
 import {UserCloud} from "../UserCloud";
 import axios from "axios";
-import Moment from "moment";
-
 
 function Profil() {
 
-    const {users, setUsers}= useContext(UserCloud);
+    const {users}= useContext(UserCloud);
     const [purchasesShow, setPurchasesShow] = useState(false);
-    const [salesShow, setSalesShow] = useState(false);
     const handlePurchasesClose = () => setPurchasesShow(false);
-    const handleSalesClose = () => setSalesShow(false);
-    const [currentOrders, setOrders] = useState([{}])
-
+    const [currentOrders, setOrders] = useState([{}]);
 
     useEffect(()=>{
 
-        //Order Absenden WICHTIG PORT ANPASSEN
+        //Alle Orders vom OrderService nehmen
         axios.get('http://localhost:8081/orderService/users/'+users.id+'/orders')
             .then(response => response.data)
             .then(data => setOrders(data))

@@ -14,6 +14,7 @@ function StockOrderManager(props) {
     const {users, setUsers}= useContext(UserCloud);
     const [orderStatus, setOrderStatus] = useState(true)
     const [sellSymbol, setSellSymbol] = useState('')
+
     let order;
 
     useEffect(()=>{
@@ -22,6 +23,12 @@ function StockOrderManager(props) {
         }
     },[props.title])
 
+
+    const onAlertHandler=(symbol)=>{
+            alert('Wertpapier wurde verkauft.')
+
+        {props.handleClose() }
+        }
 
     const placeOrder= (id) =>{
 
@@ -79,7 +86,7 @@ function StockOrderManager(props) {
                             </div>
                             <form>
                                 <label htmlFor={'Amount'}>Anzahl
-                                <input value={amount} name={'Amount'} className={"form-control"} onChange={event => setAmount(event.target.value)} style={{width:'40%', float:'right'}} type={'number'}/>
+                                    <input value={amount} name={'Amount'} className={"form-control"} onChange={event => setAmount(event.target.value)} style={{width:'40%', float:'right'}} type={'number'}/>
                                 </label>
                                 <div className={'receipt'}  style= {{visibility: orderStatus ? 'hidden':'visible' }} >
                                     <label  htmlFor={'symbol'}>Symbol
@@ -91,20 +98,20 @@ function StockOrderManager(props) {
                                 </div>
                                 <div className="form-check">
                                     <div style= {{display: orderStatus ? 'block':'none' }}>
-                                    <PayPalButton
-                                                  amount={amount* props.stockPrice}
-                                        // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
-                                        onSuccess={(details, data) => {
-                                            alert("Transaction completed by " + details.payer.name.given_name);
-                                            placeOrder(data.orderID)
-                                            // OPTIONAL: Call your server to save the transaction
-                                            axios.post('http://localhost:8081/orderService/orders/',order)
-                                                .then(response => response.data)
-                                                .then(data => console.log(data)
-                                                )
-                                        }}
-                                    />
-                                        </div>
+                                        <PayPalButton
+                                            amount={amount* props.stockPrice}
+                                            // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
+                                            onSuccess={(details, data) => {
+                                                alert("Transaction completed by " + details.payer.name.given_name);
+                                                placeOrder(data.orderID)
+                                                // OPTIONAL: Call your server to save the transaction
+                                                axios.post('http://localhost:8081/orderService/orders/',order)
+                                                    .then(response => response.data)
+                                                    .then(data => console.log(data)
+                                                    )
+                                            }}
+                                        />
+                                    </div>
                                     <input type="checkbox" className="form-check-input" required={true}/>
                                     <label className="form-check-label" htmlFor="exampleCheck1">
                                         <small>Hiermit akzeptiere ich die AGB des Online Brokers*</small>
@@ -117,13 +124,14 @@ function StockOrderManager(props) {
             </Modal.Body>
             <Modal.Footer>
                 <div style= {{display: orderStatus ? '':'block' }}>
-                <Button
+                    <Button
                         buttonStyle="btn btn-outline-secondary"
                         buttonSize="btn-sm"
                         link={'/Dashboard'}
-                        onClick={placeOrder}>
-                    Order ausführen
-                </Button>
+                        onClick={placeOrder}
+                        onClick={onAlertHandler}>
+                        Order ausführen
+                    </Button>
                 </div>
                 <Button buttonStyle="btn btn-outline-secondary"
                         buttonSize="btn-sm"
@@ -144,4 +152,3 @@ StockOrderManager.defaultProps= {
     id: 2
 
 }
-

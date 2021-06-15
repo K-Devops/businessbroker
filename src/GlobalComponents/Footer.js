@@ -27,7 +27,7 @@ function Footer() {
                         <h2>Gruppe</h2>
                         <Link to='/#'>Luisa Buderer</Link>
                         <Link to='/#'>Jan Timmer</Link>
-                        <Link to='/#'>Bürsa Alili</Link>
+                        <Link to='/#'>Büsra Alili</Link>
                         <Link to='/#'>Fabiana Kariegus</Link>
                     </div>
                 </div>
