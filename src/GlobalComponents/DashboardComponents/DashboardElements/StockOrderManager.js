@@ -7,7 +7,7 @@ import Moment from "moment";
 import {UserCloud} from "../../UserCloud";
 import axios from "axios";
 import { PayPalButton } from "react-paypal-button-v2";
-
+import { v4 as uuidv4 } from 'uuid';
 function StockOrderManager(props) {
 
     const [amount, setAmount] = useState('');
@@ -41,7 +41,7 @@ function StockOrderManager(props) {
         if(orderStatus == true){
             order = {
                 "date": new Date(),
-                "orderId": 'id',// Hier dann die OrderID ersetzen
+                "orderId": id,
                 "price": props.stockPrice,
                 "stockSymbol": props.stockSymbol,
                 "type": props.type,
@@ -51,22 +51,23 @@ function StockOrderManager(props) {
         }else{
             order = {
                 "date": new Date(),
-                "orderId": "stringavk", // muss noch jan gemacht werden
+                "orderId": uuidv4(),
                 "price": props.stockPrice,
                 "stockSymbol": props.stockSymbol,
                 "type": props.type,
                 "units": amount,
                 "userId": users.id
             }
-
+            axios.post('http://localhost:8081/orderService/orders/',order)
+                .then(response => response.data)
+                .then(data => console.log(data)
+                )
+            onAlertHandler()
         }
         //Sobald Paypal funktioniert wird das entfernt
         console.log(order)
         console.log('Gebucht')
-        axios.post('http://localhost:8081/orderService/orders/',order)
-            .then(response => response.data)
-            .then(data => console.log(data)
-            )
+
 
         {props.handleClose() }
     }
@@ -129,7 +130,7 @@ function StockOrderManager(props) {
                         buttonSize="btn-sm"
                         link={'/Dashboard'}
                         onClick={placeOrder}
-                        onClick={onAlertHandler}>
+                       >
                         Order ausführen
                     </Button>
                 </div>

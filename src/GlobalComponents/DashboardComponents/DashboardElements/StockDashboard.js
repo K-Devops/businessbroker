@@ -27,24 +27,23 @@ function StockDashboard(props) {
 
 
 
-    //Elemente für Request API
+    //Elements to request API
     const request = require('request');
     const scdrequest = require('request');
     const thrdrequest = require('request');
     const fourrequest = require('request');
 
     //Clouds
-    const {symbols} = useContext(SymbolCloud);
-    const {users}= useContext(UserCloud);
+    const {symbols, setsymbols} = useContext(SymbolCloud);
+    const {users, setUsers}= useContext(UserCloud);
 
-    //Zeitelemente
+    //Timeelements
     var date = new Date();
     var unixTimeStamp = Math.floor(date.getTime() / 1000);
     var year = Moment(date).subtract(11, 'months');
     var a = ['',];
-    var Today = Moment().format('DD.MM.YYYY')
-    var Yesterday = Moment(new Date()).subtract(7, "days").format('DD.MM.YYYY')
-
+    var Today = Moment().format('YYYY-MM-DD')
+    var Yesterday = Moment(new Date()).subtract(7, "days").format('YYYY-MM-DD')
     //Optionen für Highchartsstockdiagramm
     const [options,setoptions] = useState( {
         title: {

@@ -49,8 +49,8 @@ function Depot(props) {
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>{Number(depot.depotBalance).toFixed(2)} {}EUR</td>
-                                    <td><span className={'green'}>{depot.realizedProfitLossOfUserEntity} {}EUR<br/><span className={'small'}>(inkl. Dividenden und Erträge)</span></span></td>
+                                    <td>{Number(depot.depotBalance).toFixed(2)} EUR</td>
+                                    <td><span className={'green'}>{Number(depot.realizedProfitLossOfUserEntity).toFixed(2)} EUR<br/><span className={'small'}>(inkl. Dividenden und Erträge)</span></span></td>
                                 </tr>
                                 </tbody>
                             </table>

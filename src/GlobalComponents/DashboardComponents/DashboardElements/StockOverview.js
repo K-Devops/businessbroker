@@ -1,5 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import '../StockOrderManager.css';
+import Moment from "moment";
 
 
 function StockOverview(props) {
@@ -29,7 +30,7 @@ function StockOverview(props) {
                                     <td>{item[1].status}</td>
                                     <td>{item[1].openPrice} {props.currency}</td>
                                     <td>{props.stockPrice} {props.currency}</td>
-                                    <td>{item[1].dateOpened} </td>
+                                    <td>{Moment(item[1].dateOpened).format("DD.MM.yyyy hh:mma")}  </td>
                                 </tr>
                             )}
                             </tbody>
