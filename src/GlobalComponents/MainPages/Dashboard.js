@@ -4,8 +4,7 @@ import DepotOverview from "../DashboardComponents/DepotOverview";
 import Updates from "../DashboardComponents/Updates";
 import {Context} from "../UserContext";
 import Searchline from "../DashboardComponents/Searchline";
-
-// Prüfe ob eine Session gestartet wurde, wenn nicht -> Bitte einloggen
+import './Dashboard.css';
 
 function Dashboard() {
 
@@ -15,7 +14,7 @@ function Dashboard() {
 
     return (
         <>
-            <h1>Willkommen!</h1>
+            <h1 className={'head'} >Willkommen!</h1>
             <div className={'Dashboard'}>
             <Searchline Winteract={WatchlistMemo}  />
             <DepotOverview Winteract={WatchlistMemo}  />

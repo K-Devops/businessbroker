@@ -63,9 +63,7 @@ function StockOrderManager(props) {
                 .then(data => console.log(data)
                 )
             onAlertHandler()
-
         }
-
         {props.handleClose() }
     }
 
