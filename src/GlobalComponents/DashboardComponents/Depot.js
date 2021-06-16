@@ -69,9 +69,9 @@ function Depot(props) {
                             <tbody>{Object.entries(stockinvestments).map((item, i)=>
                                 <tr key={i} id={i}>
                                     <td>{item[0]}</td>
-                                    <td>{item[1]['averagePriceOfInvestment']}</td>
-                                    <td>{item[1]['realizedProfitLossOfInvestment']}</td>
-                                    <td>{Number(item[1]['valueOfInvestment']).toFixed(2)}</td>
+                                    <td>{item[1]['averagePriceOfInvestment'].toFixed(2)} EUR</td>
+                                    <td>{item[1]['realizedProfitLossOfInvestment'].toFixed(2)} EUR</td>
+                                    <td>{Number(item[1]['valueOfInvestment']).toFixed(2)} EUR</td>
                                     <td>
                                         <div>
                                             <button type="button" value={item} className={'btn btn-primary btn-sm'} style={{backgroundColor:'darkgrey', width:'100%'}} onClick={() => onStockHandler(item)}> Details <i className="fas fa-search"></i></button>

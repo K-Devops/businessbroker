@@ -102,7 +102,7 @@ function StockOrderManager(props) {
                                             amount={amount* props.stockPrice}
                                             // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
                                             onSuccess={(details, data) => {
-                                                alert("Transaction completed by " + details.payer.name.given_name);
+                                                alert("Zahlung wurde erfolgreich abgeschlossen!");
                                                 placeOrder(data.orderID)
                                                 // OPTIONAL: Call your server to save the transaction
                                                 axios.post('http://localhost:8081/orderService/orders/',order)
@@ -123,7 +123,7 @@ function StockOrderManager(props) {
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <div style= {{display: orderStatus ? '':'block' }}>
+                <div style= {{display: orderStatus ? 'none':'block' }}>
                     <Button
                         buttonStyle="btn btn-outline-secondary"
                         buttonSize="btn-sm"
