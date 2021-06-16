@@ -4,7 +4,6 @@ import DepotOverview from "../DashboardComponents/DepotOverview";
 import Updates from "../DashboardComponents/Updates";
 import {Context} from "../UserContext";
 import Searchline from "../DashboardComponents/Searchline";
-import './Dashboard.css';
 
 function Dashboard() {
 
