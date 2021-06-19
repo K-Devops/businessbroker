@@ -37,7 +37,6 @@ function Footer() {
                     <div  className='footer-logo'>
                         <Link to='/#' className='social-logo'>
                             ONLINE BROKER
-
                         </Link>
                     </div>
                     <small  className='website-rights'>ONLINE BROKER HFU © 2021</small>

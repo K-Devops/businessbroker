@@ -21,7 +21,7 @@ function Depot(props) {
         axios.get('http://localhost:8080/investmentService/users/'+users.id)
             .then(response => response.data)
             .then(data => octopus(data))
-    },[symbols])
+    },[showStock])
 
     const octopus = (data) =>{
         setdepot(data)
@@ -41,7 +41,6 @@ function Depot(props) {
                 <div className="depot">
                     <div className={'container'} style={{marginTop:'3em'}}>
                         <div className={'depotBestand'} style={{paddingTop:'0.2em'}}>
-
                             <table className="table table-hover">
                                 <thead>
                                 <th>Depotbalance</th>

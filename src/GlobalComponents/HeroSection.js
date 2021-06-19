@@ -12,8 +12,6 @@ function HeroSection() {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-
-    
     return (
         <div className='hero-container'>
             <video src='/videos/video-1.mp4' autoPlay loop muted />
@@ -29,7 +27,6 @@ function HeroSection() {
                 </Button>
                <Register    show={show}
                             handleClose={handleClose}/>
-
             </div>
         </div>
     );

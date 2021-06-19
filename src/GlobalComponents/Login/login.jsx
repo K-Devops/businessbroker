@@ -15,7 +15,7 @@ export const Login = (props) => {
     const history = useHistory();
 
     const routeChange = () =>{
-        let path = "/Dashboard" + '?=user' + users.id ;
+        let path = "/Dashboard" + '?token=' + users.accessToken ;
         history.push(path);
     }
 
@@ -41,14 +41,11 @@ export const Login = (props) => {
             "password":password
         }
 
-
         //Abfrage nach Login (Luisa)
         axios.post('http://localhost:8083/api/auth/signin', logindata)
             .then(response => response.data)
             .then(data => setUsers(data))
             .then(data=> console.log(data))
-
-
     }
 
         return (

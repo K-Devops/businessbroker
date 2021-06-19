@@ -34,14 +34,15 @@ export const Register = (props) => {
         alert("Die Passwörter stimmen nicht überein. Versuchen Sie es erneut.")
         return
     }
+
+         alert('Ihre Registrierung war erfolgreich')
+
         let struktur = {
             "username": name,
             "email":email,
             "password": password,
             "roles":["Role_User"]
         }
-
-
 
         //Anlegen eines Users nach erfolgreicher registrierung (Luisa)
         axios.post('http://localhost:8083/api/auth/signup', struktur)

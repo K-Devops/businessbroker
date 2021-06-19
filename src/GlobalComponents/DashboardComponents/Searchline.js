@@ -29,9 +29,7 @@ function Searchline({Winteract}) {
         if(input.length>0){
             request('https://finnhub.io/api/v1/search?q='+input+'&token='+process.env.REACT_APP_API_KEY, { json: true }, (err, res, body) => {
                 if (err) { return console.log(err); }
-                console.log(body)
                 setStocks(body.result);
-
             });
         }else{
 
@@ -51,9 +49,8 @@ function Searchline({Winteract}) {
                 </div>
             </form>
             <datalist id={'mydata'} >
-
                 {stocks && stocks.map((stock, i)=>
-                    <option key={i} value={stock.symbol}>{stock.description} {stock.displaySymbol}</option>
+                    <option key={i} value={stock.symbol}>{stock.description}{stock.displaySymbol}</option>
                 )}
             </datalist>
             <StockDashboard

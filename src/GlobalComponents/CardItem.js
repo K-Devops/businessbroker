@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './CardItem.css';
 
-//
 function CardItem(props) {
     return (
         <>
@@ -13,16 +12,12 @@ function CardItem(props) {
                             className='cards__item__img'
                             src={props.src}
                             alt="description"
-
-
                         />
                     </figure>
                     <div className='cards__item__info'>
                         <h5 className='cards__item__text'>{props.text}</h5>
                         <p className='cards__item__text'><small> {props.source}</small></p>
-
                     </div>
-
                 </Link>
             </li>
         </>

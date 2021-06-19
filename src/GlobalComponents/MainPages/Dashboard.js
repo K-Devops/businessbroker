@@ -16,12 +16,10 @@ function Dashboard() {
     return (
         <>
             <h1>Willkommen!</h1>
-            <div className={'Dashboard'}>
             <Searchline Winteract={WatchlistMemo}  />
             <DepotOverview Winteract={WatchlistMemo}  />
             <Updates news={news} />
             <Footer />
-            </div>
         </>
     );
 }

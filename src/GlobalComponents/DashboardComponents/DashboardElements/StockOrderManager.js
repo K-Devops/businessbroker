@@ -25,8 +25,7 @@ function StockOrderManager(props) {
 
 
     const onAlertHandler=(symbol)=>{
-            alert('Wertpapier wurde verkauft.')
-
+        alert('Wertpapier wurde verkauft.')
         {props.handleClose() }
         }
 

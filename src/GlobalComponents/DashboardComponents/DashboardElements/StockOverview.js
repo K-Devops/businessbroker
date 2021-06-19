@@ -6,7 +6,7 @@ import Moment from "moment";
 function StockOverview(props) {
 
     return (
-        <div style= {{visibility: props.detail ? 'collapse':'visible' }}>
+        <div style= {{display: props.detail ? 'none':'block' }}>
             <div className="container" ref={props.containerRef}>
                 <div className={'row'}>
                     <p>Meine Wertpapiere {props.symbol}</p>
