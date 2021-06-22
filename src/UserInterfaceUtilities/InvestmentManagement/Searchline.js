@@ -1,7 +1,8 @@
 import React, {useContext, useEffect, useMemo, useState} from 'react';
 import './Searchline.css';
 import {SymbolCloud} from "../SymbolCloud";
-import StockDashboard from "./DashboardElements/StockDashboard";
+import StockDashboard from "../OrderManagement/StockDashboard";
+import { useHistory } from "react-router-dom";
 
 
 function Searchline({Winteract}) {
@@ -21,7 +22,6 @@ function Searchline({Winteract}) {
         e.preventDefault();
         setsymbols(input)
         handleShow()
-
     }
 
     const onChangehandler= (input)=>{

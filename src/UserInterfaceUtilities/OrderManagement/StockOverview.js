@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import '../StockOrderManager.css';
+import '../InvestmentManagement/StockOrderManager.css';
 import Moment from "moment";
 
 

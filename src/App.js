@@ -1,47 +1,38 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import './App.css';
-import Navbar from './GlobalComponents/Navbar';
+import Navbar from './UserInterfaceUtilities/Navbar';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
-import Home from "./GlobalComponents/MainPages/Home";
-import Dashboard from "./GlobalComponents/MainPages/Dashboard";
-import AGB from "./GlobalComponents/MainPages/AGB"
-import Impressum from "./GlobalComponents/MainPages/Impressum";
-import {Context} from "./GlobalComponents/UserContext";
-import Moment from 'moment';
-import {SymbolCloud} from "./GlobalComponents/SymbolCloud";
-import {UserCloud} from "./GlobalComponents/UserCloud";
-import Profil from "./GlobalComponents/MainPages/Profil";
+import Home from "./UserInterfaceUtilities/MainPages/Home";
+import Dashboard from "./UserInterfaceUtilities/InvestmentManagement/Dashboard";
+import AGB from "./UserInterfaceUtilities/MainPages/AGB"
+import Impressum from "./UserInterfaceUtilities/MainPages/Impressum";
+import {Context} from "./UserInterfaceUtilities/UserContext";
+import {SymbolCloud} from "./UserInterfaceUtilities/SymbolCloud";
+import {UserCloud} from "./UserInterfaceUtilities/UserCloud";
+import Profil from "./UserInterfaceUtilities/UserAuthentification/Profil";
 
 function App() {
 
     //API Connection zu Finnhub als Listener
     const finnhub = require('finnhub');
     const api_key = finnhub.ApiClient.instance.authentications['api_key'];
-    api_key.apiKey = process.env.REACT_APP_API_KEY ;// Replace this
+    api_key.apiKey = process.env.REACT_APP_API_KEY ;
     const finnhubClient = new finnhub.DefaultApi()
-
 
     //States
     const [users, setUsers] = useState(  [])
     const [StockNews, setStocknews] = useState(  [])
     const [symbols, setsymbols] = useState(null)
-    const [Tickers, setTickers] = useState([])
 
     //Memos
     const symbolvalue = useMemo(()=> ({symbols, setsymbols}),[symbols, setsymbols]);
-    const Tickervalues = useMemo(()=>({Tickers, setTickers}),[Tickers, setTickers]);
     const UserManagement = useMemo(()=>({users, setUsers}),[users, setUsers])
 
     useEffect(()=>{
-
-        var Today = Moment().format('YYYY-MM-DD')
-        var Yesterday = Moment(new Date()).subtract(3, "months").format('YYYY-MM-DD')
-
-        // Allgemeine Nachrichten
+        // General news
         finnhubClient.generalNews("general", {}, (error, data, response) => {
             setStocknews(data)
         });
-
     }, [])
 
   return (

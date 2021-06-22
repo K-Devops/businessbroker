@@ -10,8 +10,6 @@ function DepotOverview({Winteract}) {
 
     const {watchlist, setWatchlist} = Winteract;
     const {users, setUsers}= useContext(UserCloud);
-    const request = require('request');
-
 
     useEffect(()=>{
         // Gesamte Watchlist erhalten

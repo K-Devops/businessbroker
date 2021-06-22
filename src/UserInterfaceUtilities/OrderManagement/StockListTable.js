@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react';
 import StockOrderManager from "./StockOrderManager";
-import {SymbolCloud} from "../../SymbolCloud";
+import {SymbolCloud} from "../SymbolCloud";
 
 function StockListTable(props) {
 

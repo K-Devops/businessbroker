@@ -1,9 +1,9 @@
 import React, {useContext, useEffect, useMemo, useState} from 'react';
 import Footer from "../Footer";
-import DepotOverview from "../DashboardComponents/DepotOverview";
-import Updates from "../DashboardComponents/Updates";
+import DepotOverview from "./DepotOverview";
+import Updates from "./Updates";
 import {Context} from "../UserContext";
-import Searchline from "../DashboardComponents/Searchline";
+import Searchline from "./Searchline";
 
 // Prüfe ob eine Session gestartet wurde, wenn nicht -> Bitte einloggen
 

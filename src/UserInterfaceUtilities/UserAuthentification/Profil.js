@@ -3,7 +3,7 @@ import Footer from "../Footer";
 import './Profil.css';
 import {UserCloud} from "../UserCloud";
 import axios from "axios";
-import ProfilTable from "./ProfilTable";
+import ProfilTable from "../OrderManagement/ProfilTable";
 import ProfilInfo from "./ProfilInfo";
 
 function Profil() {

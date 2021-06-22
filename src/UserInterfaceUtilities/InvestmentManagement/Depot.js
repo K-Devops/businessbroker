@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import axios from "axios";
 import {UserCloud} from "../UserCloud";
 import {SymbolCloud} from "../SymbolCloud";
-import StockDashboard from "./DashboardElements/StockDashboard";
+import StockDashboard from "../OrderManagement/StockDashboard";
 
 
 function Depot(props) {
@@ -43,12 +43,10 @@ function Depot(props) {
                         <div className={'depotBestand'} style={{paddingTop:'0.2em'}}>
                             <table className="table table-hover">
                                 <thead>
-                                <th>Depotbalance</th>
                                 <th>Realisierter Profit</th>
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>{Number(depot.depotBalance).toFixed(2)} EUR</td>
                                     <td><span className={'green'}>{Number(depot.realizedProfitLossOfUserEntity).toFixed(2)} EUR<br/><span className={'small'}>(inkl. Dividenden und Erträge)</span></span></td>
                                 </tr>
                                 </tbody>

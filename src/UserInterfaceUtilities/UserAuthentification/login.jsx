@@ -15,7 +15,7 @@ export const Login = (props) => {
     const history = useHistory();
 
     const routeChange = () =>{
-        let path = "/Dashboard" + '?token=' + users.accessToken ;
+        let path = "/Dashboard" + '?userid=' + users.id ;
         history.push(path);
     }
 
@@ -24,11 +24,6 @@ export const Login = (props) => {
         if(users.username==name){
             routeChange()
         }
-
-        //Erstelle InvestmentfürUser
-        axios.post('http://localhost:8080/investmentService/users/'+users.id)
-            .then(response => response.data)
-            .then(data=> console.log(data))
 
         setname('')
         setpassword('')

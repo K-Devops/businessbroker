@@ -1,15 +1,15 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useMemo, useState} from 'react';
 import {Modal} from "react-bootstrap";
 import {FaTimes} from "react-icons/fa";
-import {Button} from "../../Button";
-import {SymbolCloud} from "../../SymbolCloud";
+import {Button} from "../Button";
+import {SymbolCloud} from "../SymbolCloud";
 import './StockDashboard.css'
 import Moment from "moment";
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts/highstock'
 import axios from "axios";
 import StockOrderManager from "./StockOrderManager";
-import {UserCloud} from "../../UserCloud";
+import {UserCloud} from "../UserCloud";
 import StockTable from "./StockTable";
 import NewsBlock from "./NewsBlock";
 import StockListTable from "./StockListTable";
@@ -24,7 +24,6 @@ function StockDashboard(props) {
     const {watchlist, setWatchlist} = props.Winteract;
     const [CompanyNews, setCompanyNews] = useState([])
     const [StockData, setStockData] = useState([])
-
 
 
     //Elements to request API

@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import '../App.css';
 import './HeroSection.css';
 import {Button} from "./Button";
-import {Register} from "./Login/register";
-import './Login/style.scss'
+import {Register} from "./UserAuthentification/register";
+import './UserAuthentification/style.scss'
 
 
 function HeroSection() {
