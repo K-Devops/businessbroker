@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from "react-bootstrap/Modal";
 import {FaTimes} from "react-icons/fa";
+import Moment from "moment";
 
 function ProfilTable(props) {
     return (
@@ -27,7 +28,7 @@ function ProfilTable(props) {
                                    <td>{value.type}</td>
                                    <td>{value.stockSymbol}</td>
                                    <td>{value.units}</td>
-                                   <td>{value.date}</td>
+                                   <td>{Moment(value.date).format("DD.MM.yyyy hh:mm:ss")}</td>
                                    <td>{value.price}</td>
                                </tr>
                        ))}

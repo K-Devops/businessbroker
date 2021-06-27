@@ -15,7 +15,8 @@ function DepotOverview({Winteract}) {
         // Gesamte Watchlist erhalten
         axios.get('http://localhost:8080/investmentService/users/'+users.id+'/watchlist')
             .then(response => response.data)
-            .then(data => setWatchlist(data))
+            .then(data => setWatchlist(data.watchlist))
+
     }, [])
 
     const onClickhandler = (key) =>{

@@ -58,7 +58,6 @@ function StockDashboard(props) {
         },
         xAxis: {
             categories: [''],
-
         },
 
         series: [{
@@ -86,6 +85,7 @@ function StockDashboard(props) {
 
     // Item in die Watchlist hinzufügen
     const onClickhandler=(symbol)=>{
+        console.log(symbol)
         if(watchlist.includes(symbol)){
             alert('Wurde bereits hinzugefügt')
             return
@@ -100,7 +100,6 @@ function StockDashboard(props) {
             .then(response => response.data)
             .then(data => console.log( data)
             )
-
     }
 
     useEffect(()=>{

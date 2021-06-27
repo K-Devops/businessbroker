@@ -30,7 +30,7 @@ function StockOverview(props) {
                                     <td>{item[1].status}</td>
                                     <td>{item[1].openPrice} {props.currency}</td>
                                     <td>{props.stockPrice} {props.currency}</td>
-                                    <td>{Moment(item[1].dateOpened).format("DD.MM.yyyy hh:mma")}  </td>
+                                    <td>{Moment(item[1].dateOpened).format("DD.MM.yyyy hh:mm:ss")}  </td>
                                 </tr>
                             )}
                             </tbody>
