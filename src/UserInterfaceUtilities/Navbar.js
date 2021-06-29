@@ -24,10 +24,27 @@ function Navbar() {
     const {users, setUsers}= useContext(UserCloud);
     const history = useHistory();
 
-    useEffect(()=>{ if(users.length == 0){setlogin(false)
+    useEffect(()=>{
+        const storageUser = window.localStorage.getItem('users')
+        if(!storageUser){
+            console.log('Leer')
+        }else{
+            const User = JSON.parse(storageUser)
+            console.log(User)
+            {User ? setUsers(User): setUsers('')}
+        }
+    },[])
+
+    useEffect(()=>{
+        if(users.length == 0) {
+            setlogin(false)
         let path = "/" ;
         history.push(path);
-    }else{setlogin(true)}},[users])
+    }else{
+            let path = "/Dashboard" ;
+            history.push(path);
+            setlogin(true)
+        }},[users])
 
     const handleLogging =() =>{
         handleShow();
@@ -36,6 +53,7 @@ function Navbar() {
         if(login == true){
             setlogin(!login)
             setUsers('')
+            window.localStorage.setItem('users',[]);
             console.log("Session beendet")
         }
     }

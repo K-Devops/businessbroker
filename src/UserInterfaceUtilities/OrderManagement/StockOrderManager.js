@@ -79,7 +79,7 @@ function StockOrderManager(props) {
                     <div className="content">
                         <div className="image">
                             <div>
-                                <p><b>Aktionsdatum: {Moment().format( "DD.MM.yyyy ")}</b></p><br/>
+                                <p><b>Aktionsdatum: {Moment().format( "DD.MM.yyyy")}</b></p><br/>
                             </div>
                             <form>
                                 <label htmlFor={'Amount'}>Anzahl
