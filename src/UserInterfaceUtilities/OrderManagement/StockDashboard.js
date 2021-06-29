@@ -17,14 +17,16 @@ import StockOverview from "./StockOverview";
 
 
 function StockDashboard(props) {
+
+    //Handle Modal State
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    //States
     const [stockProfile2, setStockProfile2] = useState('')
-    const {watchlist, setWatchlist} = props.Winteract;
     const [CompanyNews, setCompanyNews] = useState([])
     const [StockData, setStockData] = useState([])
-
 
     //Elements to request API
     const request = require('request');
@@ -35,6 +37,7 @@ function StockDashboard(props) {
     //Clouds
     const {symbols, setsymbols} = useContext(SymbolCloud);
     const {users, setUsers}= useContext(UserCloud);
+    const {watchlist, setWatchlist} = props.WatchListItems;
 
     //Timeelements
     var date = new Date();
@@ -43,7 +46,7 @@ function StockDashboard(props) {
     var a = ['',];
     var Today = Moment().format('YYYY-MM-DD')
     var Yesterday = Moment(new Date()).subtract(7, "days").format('YYYY-MM-DD')
-    //Optionen für Highchartsstockdiagramm
+
     const [options,setoptions] = useState( {
         title: {
             text: 'My chart'
@@ -78,12 +81,12 @@ function StockDashboard(props) {
         }]
     })
 
-    //User kauft Wertpapiere
+    //User buys Stocks
     const onBuyhandler = (e) =>{
         handleShow();
     }
 
-    // Item in die Watchlist hinzufügen
+    //Add item to watchlist
     const onClickhandler=(symbol)=>{
         console.log(symbol)
         if(watchlist.includes(symbol)){
@@ -95,7 +98,6 @@ function StockDashboard(props) {
         }
         setWatchlist([...watchlist, symbol])
 
-        //Item in die Watchlist hinzufügen
         axios.post('http://localhost:8080/investmentService/users/'+users.id+'/watchlist/'+symbol)
             .then(response => response.data)
             .then(data => console.log( data)
@@ -193,6 +195,7 @@ function StockDashboard(props) {
                                 CompanyNews={CompanyNews}/>
                     <StockOverview  detail={props.detail}
                                     datap={props.datap}
+                                    datas={props.datas}
                                     stockPrice = {StockData.c}
                                     currency={stockProfile2.currency}/>
                 </div>

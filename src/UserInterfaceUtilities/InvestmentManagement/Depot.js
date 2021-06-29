@@ -7,15 +7,20 @@ import StockDashboard from "../OrderManagement/StockDashboard";
 
 function Depot(props) {
 
+    //Handle Modal State
     const [showStock, setShowStock] = useState(false);
     const handleCloseStock = () => setShowStock(false);
     const handleShowStock = () => setShowStock(true);
 
+    //Contextelements
     const {users}= useContext(UserCloud);
     const {symbols, setsymbols} = useContext(SymbolCloud);
+
+    //States
     const [depot, setdepot] = useState([]);
     const [stockinvestments, setStockinvestments]= useState([])
     const [detailinvestment, setdetailinvestment] = useState([])
+    const [detailsoldinvestment, setdetailsoldinvestment] = useState([])
 
     useEffect(()=>{
         axios.get('http://localhost:8080/investmentService/users/'+users.id)
@@ -31,6 +36,7 @@ function Depot(props) {
     const onStockHandler = (data) =>{
         handleShowStock();
         setdetailinvestment(data[1]['sharesInPossession'])
+        setdetailsoldinvestment(data[1]['sharesSold'])
         setsymbols(data[0])
     }
 
@@ -58,7 +64,7 @@ function Depot(props) {
                             <thead>
                             <tr>
                                 <th>Symbol</th>
-                                <th>Durchschnittwert</th>
+                                <th>Durchschn. Einkaufspreis</th>
                                 <th>Gewinn/Verlust</th>
                                 <th>Investitionswert</th>
                             </tr>
@@ -80,12 +86,12 @@ function Depot(props) {
                                 symbol={symbols}
                                 show={showStock}
                                 handleClose={handleCloseStock}
-                                Winteract={''}
+                                WatchListItems={''}
                                 datap={detailinvestment}
+                                datas={detailsoldinvestment}
                             />
                             </tbody>
                         </table>
-
                     </div>
                 </div>
             </div>

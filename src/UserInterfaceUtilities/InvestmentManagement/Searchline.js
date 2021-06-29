@@ -2,26 +2,30 @@ import React, {useContext, useEffect, useMemo, useState} from 'react';
 import './Searchline.css';
 import {SymbolCloud} from "../SymbolCloud";
 import StockDashboard from "../OrderManagement/StockDashboard";
-import { useHistory } from "react-router-dom";
 
 
-function Searchline({Winteract}) {
+function Searchline({WatchListItems}) {
 
+    //Contextelements
     const {symbols, setsymbols} = useContext(SymbolCloud);
+
+    //States
     const [stocks, setStocks] = useState(null)
     const request = require('request');
     const [input, setInput] = useState('')
-    const {watchlist, setWatchlist} = Winteract;
+    const {watchlist, setWatchlist} = WatchListItems;
     const WatchlistMemo = useMemo(()=> ({watchlist, setWatchlist}),[watchlist, setWatchlist]);
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+
+    //Handle Modal State
+    const [showStock, setShowStock] = useState(false);
+    const handleCloseStock = () => setShowStock(false);
+    const handleShowStock = () => setShowStock(true);
 
 
     const onClickhandler= (e)=>{
         e.preventDefault();
         setsymbols(input)
-        handleShow()
+        handleShowStock()
     }
 
     const onChangehandler= (input)=>{
@@ -32,13 +36,14 @@ function Searchline({Winteract}) {
                 setStocks(body.result);
             });
         }else{
-
             setInput('')
             setStocks('')
             console.log("Keine Eingabe")
         }
     }
     return (
+        <div>
+            <h1>Willkommen!</h1>
         <div className={'container'}  >
             <form className="border border-1">
                 <label className={"form-label"} htmlFor={'addsymbol'}> Suchen Sie jetzt nach Ihrer nächsten Anlage</label>
@@ -56,10 +61,11 @@ function Searchline({Winteract}) {
             <StockDashboard
                 detail={true}
                 data = {symbols}
-                show={show}
-                handleClose={handleClose}
-                Winteract={WatchlistMemo}
+                show={showStock}
+                handleClose={handleCloseStock}
+                WatchListItems={WatchlistMemo}
             />
+        </div>
         </div>
     );
 };

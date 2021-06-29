@@ -8,6 +8,7 @@ import './UserAuthentification/style.scss'
 
 function HeroSection() {
 
+    //Handle Modal State
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);

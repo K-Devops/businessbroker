@@ -7,17 +7,22 @@ import {UserCloud} from "./UserCloud";
 
 
 function Navbar() {
-    const [click, setClick] = useState(false);
-    const [button, setButton] = useState(true);
+
+    //Handle Modal State
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    //States
+    const [click, setClick] = useState(false);
+    const [button, setButton] = useState(true);
     const handleClick = () => setClick(!click);
     const closeMobileMenu = () => setClick(false);
     const [login, setlogin] = useState(false);
+
+    //Contextelements
     const {users, setUsers}= useContext(UserCloud);
     const history = useHistory();
-
 
     useEffect(()=>{ if(users.length == 0){setlogin(false)
         let path = "/" ;

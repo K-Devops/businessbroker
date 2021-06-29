@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 
 function Watchlist(props) {
+
+    //States
     const request = require('request');
     const [array, setArray]=useState({
         objects:[]

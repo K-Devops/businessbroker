@@ -4,12 +4,15 @@ import {SymbolCloud} from "../SymbolCloud";
 
 function StockListTable(props) {
 
+    //Handle Modal State
     const [showSell, setShowSell] = useState(false);
     const handleCloseSell = () => setShowSell(false);
     const handleShowSell = () => setShowSell(true);
+
+    //Contextelements
     const {symbols} = useContext(SymbolCloud);
 
-    //User sell some stocks
+    //User sell stocks
     const onSellHandler = (e) =>{
         handleShowSell();
     }

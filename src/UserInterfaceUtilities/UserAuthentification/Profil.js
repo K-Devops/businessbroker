@@ -8,14 +8,18 @@ import ProfilInfo from "./ProfilInfo";
 
 function Profil() {
 
+    //Contextelements
     const {users}= useContext(UserCloud);
+
+    //Handle Modal State
     const [purchasesShow, setPurchasesShow] = useState(false);
     const handlePurchasesClose = () => setPurchasesShow(false);
+
+    //States
     const [currentOrders, setOrders] = useState([{}]);
 
     useEffect(()=>{
-
-        //Alle Orders vom OrderService nehmen
+        // Get all Orders
         axios.get('http://localhost:8081/orderService/users/'+users.id+'/orders')
             .then(response => response.data)
             .then(data => setOrders(data))

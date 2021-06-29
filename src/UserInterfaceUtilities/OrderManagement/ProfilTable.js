@@ -24,7 +24,7 @@ function ProfilTable(props) {
                        <tbody>
                        {props.currentOrders && props.currentOrders.map(((value, index) =>
                                <tr>
-                                   <td>{index}</td>
+                                   <td>{index+1}</td>
                                    <td>{value.type}</td>
                                    <td>{value.stockSymbol}</td>
                                    <td>{value.units}</td>

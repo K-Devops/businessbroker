@@ -5,7 +5,6 @@ import Updates from "./Updates";
 import {Context} from "../UserContext";
 import Searchline from "./Searchline";
 
-// Prüfe ob eine Session gestartet wurde, wenn nicht -> Bitte einloggen
 
 function Dashboard() {
 
@@ -15,9 +14,8 @@ function Dashboard() {
 
     return (
         <>
-            <h1>Willkommen!</h1>
-            <Searchline Winteract={WatchlistMemo}  />
-            <DepotOverview Winteract={WatchlistMemo}  />
+            <Searchline WatchListItems={WatchlistMemo}  />
+            <DepotOverview WatchListItems={WatchlistMemo}  />
             <Updates news={news} />
             <Footer />
         </>

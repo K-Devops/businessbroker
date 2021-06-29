@@ -10,12 +10,14 @@ import { PayPalButton } from "react-paypal-button-v2";
 import { v4 as uuidv4 } from 'uuid';
 function StockOrderManager(props) {
 
+    //States
     const [amount, setAmount] = useState('');
-    const {users, setUsers}= useContext(UserCloud);
     const [orderStatus, setOrderStatus] = useState(true)
     const [sellSymbol, setSellSymbol] = useState('')
-
     let order;
+
+    //Contextelements
+    const {users, setUsers}= useContext(UserCloud);
 
     useEffect(()=>{
         if(props.title == 'Verkaufen'){
@@ -24,7 +26,7 @@ function StockOrderManager(props) {
     },[props.title])
 
 
-    const onAlertHandler=(symbol)=>{
+    const onAlertHandler=()=>{
         alert('Wertpapier wurde verkauft.')
         {props.handleClose() }
         }
@@ -63,11 +65,6 @@ function StockOrderManager(props) {
                 )
             onAlertHandler()
         }
-        //Sobald Paypal funktioniert wird das entfernt
-        console.log(order)
-        console.log('Gebucht')
-
-
         {props.handleClose() }
     }
 

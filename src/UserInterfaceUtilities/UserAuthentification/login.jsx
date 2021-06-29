@@ -8,8 +8,10 @@ import axios from "axios";
 
 
 export const Login = (props) => {
-
+    //Contextelements
     const {users, setUsers}= useContext(UserCloud);
+
+    //States
     const [name, setname] = useState('')
     const [password, setpassword] = useState('')
     const history = useHistory();
@@ -36,7 +38,7 @@ export const Login = (props) => {
             "password":password
         }
 
-        //Abfrage nach Login (Luisa)
+        //SignIn
         axios.post('http://localhost:8083/api/auth/signin', logindata)
             .then(response => response.data)
             .then(data => setUsers(data))
