@@ -42,13 +42,13 @@ export const Login = (props) => {
 
     const onsubmit = (e) =>{
         e.preventDefault();
-        let logindata = {
+        let userinformation = {
             "username":name,
             "password":password
         }
 
         //SignIn
-        axios.post('http://localhost:8083/api/auth/signin', logindata)
+        axios.post('http://localhost:8083/api/auth/signin', userinformation)
             .then(response => response.data)
             .then(data => setUsers(data) + window.localStorage.setItem('users',JSON.stringify(data)))
     }

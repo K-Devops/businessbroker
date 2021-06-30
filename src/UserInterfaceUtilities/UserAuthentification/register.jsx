@@ -37,7 +37,7 @@ export const Register = (props) => {
 
          alert('Ihre Registrierung war erfolgreich')
 
-        let struktur = {
+        let usermodel = {
             "username": name,
             "email":email,
             "password": password,
@@ -45,7 +45,7 @@ export const Register = (props) => {
         }
 
        // register user AuthenthificationService
-        axios.post('http://localhost:8083/api/auth/signup', struktur)
+        axios.post('http://localhost:8083/api/auth/signup', usermodel)
             .then(response => response.data)
             .then(data => console.log(data)
             )
