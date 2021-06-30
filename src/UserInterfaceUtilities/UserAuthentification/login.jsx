@@ -7,6 +7,7 @@ import {UserCloud} from "../UserCloud";
 import axios from "axios";
 
 export const Login = (props) => {
+
     //Contextelements
     const {users, setUsers}= useContext(UserCloud);
 
@@ -21,8 +22,18 @@ export const Login = (props) => {
     }
 
     useEffect(()=>{
+        const storageUser = window.localStorage.getItem('users')
+        if(!storageUser){
+            console.log('Es ist kein User im Storage')
+        }else{
+            const User = JSON.parse(storageUser)
+            {User ? setUsers(User): setUsers('')}
+        }
+    },[])
 
-        if(users.username==name){
+    useEffect(()=>{
+
+        if(users.username == name){
             routeChange()
         }
         setname('')
@@ -30,7 +41,6 @@ export const Login = (props) => {
     },[users])
 
     const onsubmit = (e) =>{
-
         e.preventDefault();
         let logindata = {
             "username":name,
@@ -40,7 +50,7 @@ export const Login = (props) => {
         //SignIn
         axios.post('http://localhost:8083/api/auth/signin', logindata)
             .then(response => response.data)
-            .then(data => setUsers(data)+window.localStorage.setItem('users',JSON.stringify(data)))
+            .then(data => setUsers(data) + window.localStorage.setItem('users',JSON.stringify(data)))
     }
 
         return (

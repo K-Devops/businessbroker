@@ -25,17 +25,6 @@ function Navbar() {
     const history = useHistory();
 
     useEffect(()=>{
-        const storageUser = window.localStorage.getItem('users')
-        if(!storageUser){
-            console.log('Leer')
-        }else{
-            const User = JSON.parse(storageUser)
-            console.log(User)
-            {User ? setUsers(User): setUsers('')}
-        }
-    },[])
-
-    useEffect(()=>{
         if(users.length == 0) {
             setlogin(false)
         let path = "/" ;

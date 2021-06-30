@@ -10,7 +10,6 @@ function Watchlist(props) {
     var ar=[];
 
     useEffect(()=>{
-
         props.watchlist.map((listitem, i) => {
             request('https://finnhub.io/api/v1/quote?symbol=' + listitem + '&token=' + process.env.REACT_APP_API_KEY, {json: true}, (err, res, body) => {
                 if (err) {
