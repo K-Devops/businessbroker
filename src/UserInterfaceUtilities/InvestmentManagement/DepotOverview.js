@@ -6,18 +6,19 @@ import Watchlist from "./Watchlist";
 import Depot from "./Depot";
 
 
-function DepotOverview({Winteract}) {
+function DepotOverview({WatchListItems}) {
 
-    const {watchlist, setWatchlist} = Winteract;
+    //States
+    const {watchlist, setWatchlist} = WatchListItems;
+
+    //Contextelements
     const {users, setUsers}= useContext(UserCloud);
-    const request = require('request');
-
 
     useEffect(()=>{
-        // Gesamte Watchlist erhalten
         axios.get('http://localhost:8080/investmentService/users/'+users.id+'/watchlist')
             .then(response => response.data)
-            .then(data => setWatchlist(data))
+            .then(data => setWatchlist(data.watchlist))
+
     }, [])
 
     const onClickhandler = (key) =>{

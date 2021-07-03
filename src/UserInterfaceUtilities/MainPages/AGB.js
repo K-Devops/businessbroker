@@ -6,8 +6,7 @@ function AGB() {
         <>
             <div className={'container'} style={{marginTop:'5em'}}>
                 <div className="fusion-text fusion-text-1">
-                    <h1><strong>AGB</strong></h1>
-                    <h1 align="center"><b>Allgemeine Geschäftsbedingungen mit Kundeninformationen</b></h1>
+                    <h1 align="center">Allgemeine Geschäftsbedingungen mit Kundeninformationen</h1>
                     <p> </p>
                     <p><strong>Inhaltsverzeichnis</strong></p>
                     <ol>

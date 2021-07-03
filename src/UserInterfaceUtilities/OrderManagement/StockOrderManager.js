@@ -2,21 +2,22 @@ import React, {useContext, useEffect, useState} from 'react';
 import './StockOrderManager.css';
 import {Modal} from "react-bootstrap";
 import {FaTimes} from "react-icons/fa";
-import {Button} from "../../Button";
+import {Button} from "../Button";
 import Moment from "moment";
-import {UserCloud} from "../../UserCloud";
+import {UserCloud} from "../UserCloud";
 import axios from "axios";
 import { PayPalButton } from "react-paypal-button-v2";
 import { v4 as uuidv4 } from 'uuid';
-
 function StockOrderManager(props) {
 
+    //States
     const [amount, setAmount] = useState('');
-    const {users, setUsers}= useContext(UserCloud);
     const [orderStatus, setOrderStatus] = useState(true)
     const [sellSymbol, setSellSymbol] = useState('')
-
     let order;
+
+    //Contextelements
+    const {users, setUsers}= useContext(UserCloud);
 
     useEffect(()=>{
         if(props.title == 'Verkaufen'){
@@ -25,11 +26,10 @@ function StockOrderManager(props) {
     },[props.title])
 
 
-    const onAlertHandler=(symbol)=>{
-            alert('Wertpapier wurde verkauft.')
-
+    const onAlertHandler=()=>{
+        alert('Wertpapier wurde verkauft.')
         {props.handleClose() }
-        }
+    }
 
     const placeOrder= (id) =>{
 
@@ -38,10 +38,11 @@ function StockOrderManager(props) {
         console.log('Symbol',props.stockSymbol)
         console.log('Price', props.stockPrice)
 
+
         if(orderStatus == true){
             order = {
                 "date": new Date(),
-                "orderId": id,// Hier dann die OrderID ersetzen
+                "orderId": id,
                 "price": props.stockPrice,
                 "stockSymbol": props.stockSymbol,
                 "type": props.type,
@@ -50,7 +51,7 @@ function StockOrderManager(props) {
             }
         }else{
             order = {
-                "date":new Date(),
+                "date": new Date(),
                 "orderId": uuidv4(),
                 "price": props.stockPrice,
                 "stockSymbol": props.stockSymbol,
@@ -78,7 +79,7 @@ function StockOrderManager(props) {
                     <div className="content">
                         <div className="image">
                             <div>
-                                <p><b>Aktionsdatum: {Moment().format( "DD.MM.yyyy ")}</b></p><br/>
+                                <p><b>Aktionsdatum: {Moment().format( "DD.MM.yyyy")}</b></p><br/>
                             </div>
                             <form>
                                 <label htmlFor={'Amount'}>Anzahl
@@ -124,7 +125,8 @@ function StockOrderManager(props) {
                         buttonStyle="btn btn-outline-secondary"
                         buttonSize="btn-sm"
                         link={'/Dashboard'}
-                        onClick={placeOrder}>
+                        onClick={placeOrder}
+                    >
                         Order ausführen
                     </Button>
                 </div>

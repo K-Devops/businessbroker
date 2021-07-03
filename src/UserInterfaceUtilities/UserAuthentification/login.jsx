@@ -6,49 +6,51 @@ import { useHistory } from "react-router-dom";
 import {UserCloud} from "../UserCloud";
 import axios from "axios";
 
-
 export const Login = (props) => {
 
+    //Contextelements
     const {users, setUsers}= useContext(UserCloud);
+
+    //States
     const [name, setname] = useState('')
     const [password, setpassword] = useState('')
     const history = useHistory();
 
     const routeChange = () =>{
-        let path = "/Dashboard" + '?=user' + users.id ;
+        let path = "/Dashboard" ;
         history.push(path);
     }
 
     useEffect(()=>{
+        const storageUser = window.localStorage.getItem('users')
+        if(!storageUser){
+            console.log('Es ist kein User im Storage')
+        }else{
+            const User = JSON.parse(storageUser)
+            {User ? setUsers(User): setUsers('')}
+        }
+    },[])
 
-        if(users.username==name){
+    useEffect(()=>{
+
+        if(users.username == name){
             routeChange()
         }
-
-        //Erstelle InvestmentfürUser
-        axios.post('http://localhost:8080/investmentService/users/'+users.id)
-            .then(response => response.data)
-            .then(data=> console.log(data))
-
         setname('')
         setpassword('')
     },[users])
 
     const onsubmit = (e) =>{
         e.preventDefault();
-        let logindata = {
+        let userinformation = {
             "username":name,
             "password":password
         }
 
-
-        //Abfrage nach Login (Luisa)
-        axios.post('http://localhost:8083/api/auth/signin', logindata)
+        //SignIn
+        axios.post('http://localhost:8083/api/auth/signin', userinformation)
             .then(response => response.data)
-            .then(data => setUsers(data))
-            .then(data=> console.log(data))
-
-
+            .then(data => setUsers(data) + window.localStorage.setItem('users',JSON.stringify(data)))
     }
 
         return (

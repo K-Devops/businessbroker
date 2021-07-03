@@ -8,7 +8,6 @@ function Cards({news}) {
             <div className='cards__container'>
                 <div className='cards__wrapper'>
                     <h3>Ihre Vorteile</h3>
-
                     <ul className='cards__items'>
                         <CardItem
                             src='images/img-2.jpg'

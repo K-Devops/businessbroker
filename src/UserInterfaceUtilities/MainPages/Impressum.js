@@ -7,7 +7,7 @@ function Impressum() {
             <div className={'container'} style={{marginTop:'5em'}}>
                 <div className={'row'}>
                     <div className={'col-6'}>
-                        <h1><strong>Impressum</strong></h1><br/>
+                        <h1>Impressum</h1><br/>
                         <p> </p>
                         <p>Online Broker<br />Robert-Gerwig-Platz 1<br />78120 Furtwangen <br /> Deutschland</p>
                         <p>Telefon: 07723 9230-0<br />E-Mail: info@onlinebroker.de</p>

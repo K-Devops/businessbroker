@@ -2,12 +2,12 @@ import React, {useContext, useState} from "react";
 import {Modal} from "react-bootstrap";
 import {Button} from "../Button";
 import {FaTimes} from "react-icons/fa";
-import {UserCloud} from "../UserCloud";
 import axios from "axios";
 
 
 export const Register = (props) => {
 
+    //States
     const [name, setname] = useState('')
     const [email,setemail] = useState('')
     const [password, setpassword] = useState('')
@@ -34,17 +34,18 @@ export const Register = (props) => {
         alert("Die Passwörter stimmen nicht überein. Versuchen Sie es erneut.")
         return
     }
-        let struktur = {
+
+         alert('Ihre Registrierung war erfolgreich')
+
+        let usermodel = {
             "username": name,
             "email":email,
             "password": password,
             "roles":["Role_User"]
         }
 
-
-
-        //Anlegen eines Users nach erfolgreicher registrierung (Luisa)
-        axios.post('http://localhost:8083/api/auth/signup', struktur)
+       // register user AuthenthificationService
+        axios.post('http://localhost:8083/api/auth/signup', usermodel)
             .then(response => response.data)
             .then(data => console.log(data)
             )
@@ -54,7 +55,6 @@ export const Register = (props) => {
         setpassword('')
         setpasswordtwo('')
         setcheckbox(false)
-        /* Um die Felder nach der Eingabe zu leeren*/
     }
 
 

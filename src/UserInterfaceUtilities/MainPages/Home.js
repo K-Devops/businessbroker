@@ -8,6 +8,7 @@ import {Context} from "../UserContext";
 
 function Home() {
 
+    //Contextelements
     const news = useContext(Context);
 
     return (

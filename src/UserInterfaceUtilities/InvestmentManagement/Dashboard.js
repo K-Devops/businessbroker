@@ -1,9 +1,10 @@
 import React, {useContext, useEffect, useMemo, useState} from 'react';
 import Footer from "../Footer";
-import DepotOverview from "../DashboardComponents/DepotOverview";
-import Updates from "../DashboardComponents/Updates";
+import DepotOverview from "./DepotOverview";
+import Updates from "./Updates";
 import {Context} from "../UserContext";
-import Searchline from "../DashboardComponents/Searchline";
+import Searchline from "./Searchline";
+
 
 function Dashboard() {
 
@@ -13,13 +14,10 @@ function Dashboard() {
 
     return (
         <>
-            <h1 className={'head'} >Willkommen!</h1>
-            <div className={'Dashboard'}>
-            <Searchline Winteract={WatchlistMemo}  />
-            <DepotOverview Winteract={WatchlistMemo}  />
+            <Searchline WatchListItems={WatchlistMemo}  />
+            <DepotOverview WatchListItems={WatchlistMemo}  />
             <Updates news={news} />
             <Footer />
-            </div>
         </>
     );
 }

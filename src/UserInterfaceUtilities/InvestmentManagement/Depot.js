@@ -2,26 +2,31 @@ import React, {useContext, useEffect, useState} from 'react';
 import axios from "axios";
 import {UserCloud} from "../UserCloud";
 import {SymbolCloud} from "../SymbolCloud";
-import StockDashboard from "./DashboardElements/StockDashboard";
+import StockDashboard from "../OrderManagement/StockDashboard";
 
 
 function Depot(props) {
 
+    //Handle Modal State
     const [showStock, setShowStock] = useState(false);
     const handleCloseStock = () => setShowStock(false);
     const handleShowStock = () => setShowStock(true);
 
+    //Contextelements
     const {users}= useContext(UserCloud);
     const {symbols, setsymbols} = useContext(SymbolCloud);
+
+    //States
     const [depot, setdepot] = useState([]);
     const [stockinvestments, setStockinvestments]= useState([])
     const [detailinvestment, setdetailinvestment] = useState([])
+    const [detailsoldinvestment, setdetailsoldinvestment] = useState([])
 
     useEffect(()=>{
         axios.get('http://localhost:8080/investmentService/users/'+users.id)
             .then(response => response.data)
             .then(data => octopus(data))
-    },[symbols])
+    },[showStock])
 
     const octopus = (data) =>{
         setdepot(data)
@@ -31,6 +36,7 @@ function Depot(props) {
     const onStockHandler = (data) =>{
         handleShowStock();
         setdetailinvestment(data[1]['sharesInPossession'])
+        setdetailsoldinvestment(data[1]['sharesSold'])
         setsymbols(data[0])
     }
 
@@ -41,16 +47,13 @@ function Depot(props) {
                 <div className="depot">
                     <div className={'container'} style={{marginTop:'3em'}}>
                         <div className={'depotBestand'} style={{paddingTop:'0.2em'}}>
-
                             <table className="table table-hover">
                                 <thead>
-                                <th>Depotbalance</th>
                                 <th>Realisierter Profit</th>
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>{Number(depot.depotBalance).toFixed(2)} {}EUR</td>
-                                    <td><span className={'green'}>{depot.realizedProfitLossOfUserEntity} {}EUR<br/><span className={'small'}>(inkl. Dividenden und Erträge)</span></span></td>
+                                    <td><span className={'green'}>{Number(depot.realizedProfitLossOfUserEntity).toFixed(2)} EUR<br/><span className={'small'}>(inkl. Dividenden und Erträge)</span></span></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -61,7 +64,7 @@ function Depot(props) {
                             <thead>
                             <tr>
                                 <th>Symbol</th>
-                                <th>Durchschnittwert</th>
+                                <th>Durchschn. Einkaufspreis</th>
                                 <th>Gewinn/Verlust</th>
                                 <th>Investitionswert</th>
                             </tr>
@@ -83,12 +86,12 @@ function Depot(props) {
                                 symbol={symbols}
                                 show={showStock}
                                 handleClose={handleCloseStock}
-                                Winteract={''}
+                                WatchListItems={''}
                                 datap={detailinvestment}
+                                datas={detailsoldinvestment}
                             />
                             </tbody>
                         </table>
-
                     </div>
                 </div>
             </div>

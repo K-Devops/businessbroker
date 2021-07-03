@@ -1,27 +1,31 @@
 import React, {useContext, useEffect, useMemo, useState} from 'react';
 import './Searchline.css';
 import {SymbolCloud} from "../SymbolCloud";
-import StockDashboard from "./DashboardElements/StockDashboard";
+import StockDashboard from "../OrderManagement/StockDashboard";
 
 
-function Searchline({Winteract}) {
+function Searchline({WatchListItems}) {
 
+    //Contextelements
     const {symbols, setsymbols} = useContext(SymbolCloud);
+
+    //States
     const [stocks, setStocks] = useState(null)
     const request = require('request');
     const [input, setInput] = useState('')
-    const {watchlist, setWatchlist} = Winteract;
+    const {watchlist, setWatchlist} = WatchListItems;
     const WatchlistMemo = useMemo(()=> ({watchlist, setWatchlist}),[watchlist, setWatchlist]);
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+
+    //Handle Modal State
+    const [showStock, setShowStock] = useState(false);
+    const handleCloseStock = () => setShowStock(false);
+    const handleShowStock = () => setShowStock(true);
 
 
     const onClickhandler= (e)=>{
         e.preventDefault();
         setsymbols(input)
-        handleShow()
-
+        handleShowStock()
     }
 
     const onChangehandler= (input)=>{
@@ -29,18 +33,17 @@ function Searchline({Winteract}) {
         if(input.length>0){
             request('https://finnhub.io/api/v1/search?q='+input+'&token='+process.env.REACT_APP_API_KEY, { json: true }, (err, res, body) => {
                 if (err) { return console.log(err); }
-                console.log(body)
                 setStocks(body.result);
-
             });
         }else{
-
             setInput('')
             setStocks('')
             console.log("Keine Eingabe")
         }
     }
     return (
+        <div>
+            <h1>Willkommen!</h1>
         <div className={'container'}  >
             <form className="border border-1">
                 <label className={"form-label"} htmlFor={'addsymbol'}> Suchen Sie jetzt nach Ihrer nächsten Anlage</label>
@@ -51,18 +54,18 @@ function Searchline({Winteract}) {
                 </div>
             </form>
             <datalist id={'mydata'} >
-
                 {stocks && stocks.map((stock, i)=>
-                    <option key={i} value={stock.symbol}>{stock.description} {stock.displaySymbol}</option>
+                    <option key={i} value={stock.symbol}>{stock.description}{stock.displaySymbol}</option>
                 )}
             </datalist>
             <StockDashboard
                 detail={true}
                 data = {symbols}
-                show={show}
-                handleClose={handleClose}
-                Winteract={WatchlistMemo}
+                show={showStock}
+                handleClose={handleCloseStock}
+                WatchListItems={WatchlistMemo}
             />
+        </div>
         </div>
     );
 };
