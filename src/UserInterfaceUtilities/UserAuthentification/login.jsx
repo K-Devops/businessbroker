@@ -35,6 +35,8 @@ export const Login = (props) => {
 
         if(users.username == name){
             routeChange()
+        }else{
+            alert('Ihre Eingabeparameter waren nicht korrekt')
         }
         setname('')
         setpassword('')
